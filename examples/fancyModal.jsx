@@ -21,7 +21,6 @@ class FancyModalButton extends Component {
     }
 
     this.toggleModal = this.toggleModal.bind(this)
-    this.handleInput = this.handleInput.bind(this)
   }
 
   toggleModal (e) {
