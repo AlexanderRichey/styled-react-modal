@@ -95,7 +95,7 @@ Sets the root portal where `<Modal>`s will be rendered.
 
 **Props**
 
-- [`backgroundComponent`] (Component): A styled component to be used as the default modal background.
+- [`backgroundComponent`] (Component): A styled component to be used as the default modal background. If not provided, library defaults will be used.
 
 *Example:*
 
