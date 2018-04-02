@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { ModalProvider, Modal } from 'styled-react-modal'
+import Modal, { ModalProvider } from 'styled-react-modal'
 
 const StyledModal = Modal.styled`
   width: 20rem;
@@ -26,10 +26,6 @@ class FancyModalButton extends Component {
 
   toggleModal (e) {
     this.setState({ isOpen: !this.state.isOpen })
-  }
-
-  handleInput (e) {
-    this.setState({ someInput: e.target.value })
   }
 
   render () {
