@@ -1,7 +1,7 @@
 {
   "name": "styled-react-modal",
   "version": "0.1.0",
-  "description": "An easy to use modal component for React that uses styled-components.",
+  "description": "A modal component for React built with styled-components.",
   "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

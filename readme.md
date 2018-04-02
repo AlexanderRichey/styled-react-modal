@@ -89,7 +89,7 @@ class FancyModalButton extends Component {
   - `<Modal>`
 - `<BaseModalBackground>`
 
-## `<ModalProvider>`
+### `<ModalProvider>`
 
 Sets the root portal where `<Modal>`s will be rendered.
 
@@ -126,7 +126,7 @@ export default class App extends Component {
 }
 ```
 
-## `Modal.styled(styles)`
+### `Modal.styled(styles)`
 
 Factory method that accepts a tagged template literal and returns a `<Modal>` component with styles included.
 
@@ -147,7 +147,7 @@ const StyledModal = Modal.styled`
 `
 ```
 
-## `<Modal>`
+### `<Modal>`
 
 Renders its children in a modal when open, nothing when not open.
 
@@ -191,7 +191,7 @@ class FancyModalButton extends Component {
 }
 ```
 
-## `<BaseModalBackground>`
+### `<BaseModalBackground>`
 
 A convenience base component for making default background styles with `<ModalProvider>`.
 
