@@ -15,10 +15,10 @@ class ModalProvider extends Component {
 
   render () {
     return (
-      <div>
+      <React.Fragment>
         {this.props.children}
         <div ref={node => { modalNode = node }} />
-      </div>
+      </React.Fragment>
     )
   }
 }
