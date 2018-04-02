@@ -2,7 +2,7 @@
 
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal)
 
-Styled React Modal is a modal implementation built with styled-components. It uses the latest React 16.x features and exposes a familiar, easy to use API.
+Styled React Modal is built with styled-components. It uses the latest React 16.x features and exposes a familiar, easy to use API. Unlike several other modal implementations in React, it does not pollute the DOM with excessive nodes.
 
 ## Install
 
@@ -84,7 +84,7 @@ class FancyModalButton extends Component {
 
 #### Top-Level Exports
 - `<ModalProvider>`
-- `Modal` (Default)
+- `Modal` \(Default\)
   - `Modal.styled(styles)`
   - `<Modal>`
 - `<BaseModalBackground>`
@@ -95,7 +95,7 @@ Sets the root portal where `<Modal>`s will be rendered.
 
 **Props**
 
-- [`backgroundComponent`] (Component): A styled component to be used as the default modal background. If not provided, library defaults will be used.
+- [`backgroundComponent`] \(Component\): A styled component to be used as the default modal background. If not provided, library defaults will be used.
 
 *Example:*
 
@@ -132,7 +132,7 @@ Factory method that accepts a tagged template literal and returns a `<Modal>` co
 
 **Arguments**
 
- - `styles` (Tagged Template Literal): styled-components compatible css styles.
+ - `styles` \(Tagged Template Literal\): styled-components compatible css styles.
 
 *Example:*
 
@@ -153,9 +153,10 @@ Renders its children in a modal when open, nothing when not open.
 
 **Props**
 
-- `isOpen` (Boolean): A boolean that indicates whether the modal is to be open or closed.
-- [`onBackgroundClick`] (Function): A function that is called when the modal background is clicked.
-- [`onEscapeKeydown`] (Function): A function that is called when the escape key is pressed while the modal is open.
+- `isOpen` \(Boolean\): A boolean that indicates whether the modal is to be open or closed.
+- [`onBackgroundClick`] \(Function\): A function that is called when the modal background is clicked.
+- [`onEscapeKeydown`] \(Function\): A function that is called when the escape key is pressed while the modal is open.
+- [`allowScroll`] \(Boolean\): When true, scrolling in the document body is not disabled when the modal is open.
 
 *Example:*
 

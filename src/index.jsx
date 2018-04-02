@@ -31,6 +31,7 @@ class Modal extends Component {
 
     this.node = null
     this.InnerStyles = styled.div`${props.styles}` || styled.div``
+    this.prevBodyOverflow = null
 
     this.onKeydown = this.onKeydown.bind(this)
     this.onBackgroundClick = this.onBackgroundClick.bind(this)
@@ -60,8 +61,17 @@ class Modal extends Component {
       if (!this.state.isOpen) {
         modalNode && this.node && modalNode.removeChild(this.node)
         document.removeEventListener('keydown', this.onKeydown)
+
+        if (!this.props.allowScroll) {
+          document.body.style.overflow = this.prevBodyOverflow || ''
+        }
       } else if (this.state.isOpen) {
         document.addEventListener('keydown', this.onKeydown)
+
+        if (!this.props.allowScroll) {
+          this.prevBodyOverflow = document.body.style.overflow
+          document.body.style.overflow = 'hidden'
+        }
       }
     }
   }
