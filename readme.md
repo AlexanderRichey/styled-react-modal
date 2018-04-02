@@ -14,7 +14,7 @@ npm i -s styled-react-modal
 
 Add the `<ModalProvider>` component near the top of your application's tree.
 
-```jsx
+```js
 import React, { Component } from 'react'
 import { ModalProvider } from 'styled-react-modal'
 ...
@@ -34,7 +34,7 @@ export default class App extends Component {
 
 Use the `<Modal>` component.
 
-```jsx
+```js
 import Modal from 'styled-react-modal'
 ...
 
@@ -80,7 +80,7 @@ class FancyModalButton extends Component {
 
 ```
 
-## API
+# API
 
 #### Top-Level Exports
 - `<ModalProvider>`
@@ -89,7 +89,7 @@ class FancyModalButton extends Component {
   - `<Modal>`
 - `<BaseModalBackground>`
 
-### `<ModalProvider>`
+## `<ModalProvider>`
 
 Sets the root portal where `<Modal>`s will be rendered.
 
@@ -99,7 +99,7 @@ Sets the root portal where `<Modal>`s will be rendered.
 
 *Example:*
 
-```
+```js
 import { ModalProvider } from 'styled-react-modal'
 
 const SpecialModalBackground = styled.div`
@@ -126,7 +126,7 @@ export default class App extends Component {
 }
 ```
 
-### `Modal.styled(styles)`
+## `Modal.styled(styles)`
 
 Factory method that accepts a tagged template literal and returns a `<Modal>` component with styles included.
 
@@ -136,7 +136,7 @@ Factory method that accepts a tagged template literal and returns a `<Modal>` co
 
 *Example:*
 
-```
+```js
 const StyledModal = Modal.styled`
   width: 20rem;
   height: 20rem;
@@ -147,7 +147,7 @@ const StyledModal = Modal.styled`
 `
 ```
 
-### `<Modal>`
+## `<Modal>`
 
 Renders its children in a modal when open, nothing when not open.
 
@@ -159,7 +159,7 @@ Renders its children in a modal when open, nothing when not open.
 
 *Example:*
 
-```
+```js
 import Modal from 'styled-react-modal'
 
 class FancyModalButton extends Component {
@@ -191,13 +191,13 @@ class FancyModalButton extends Component {
 }
 ```
 
-### `<BaseModalBackground>`
+## `<BaseModalBackground>`
 
 A convenience base component for making default background styles with `<ModalProvider>`.
 
 *Example:*
 
-```
+```js
 const SpecialModalBackground = styled(BaseModalBackground)`
   background-color: green;
 `
