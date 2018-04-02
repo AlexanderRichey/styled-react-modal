@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { BaseModalBackground } from './baseStyles'
 
 let modalNode = null
@@ -30,16 +30,17 @@ class Modal extends Component {
     this.state = { isOpen: false }
 
     this.node = null
-    this.InnerStyles = styled.div(props.styles) || styled.div``
+    this.InnerStyles = styled.div`${props.styles}` || styled.div``
 
     this.onKeydown = this.onKeydown.bind(this)
     this.onBackgroundClick = this.onBackgroundClick.bind(this)
   }
 
   static styled (...args) {
+    const styles = css(...args)
     return class __StyledModal extends Component {
       render () {
-        return <Modal styles={args} {...this.props} />
+        return <Modal styles={styles} {...this.props} />
       }
     }
   }
