@@ -103,13 +103,15 @@ class Modal extends Component {
   }
 
   render () {
-    if (this.props.isOpen) {
+    const { isOpen, children, ...rest } = this.props
+
+    if (isOpen) {
       return ReactDOM.createPortal((
         <BackgroundComponent
           onClick={this.onBackgroundClick}
           innerRef={node => { this.node = node }}>
-          <this.InnerStyles>
-            {this.props.children}
+          <this.InnerStyles {...rest}>
+            {children}
           </this.InnerStyles>
         </BackgroundComponent>
       ), modalNode)
