@@ -73,7 +73,10 @@ class Modal extends Component {
   }
 
   handleClose () {
-    modalNode && this.node && modalNode.removeChild(this.node)
+    if (modalNode && this.node && modalNode.contains(this.node)) {
+      modalNode.removeChild(this.node)
+    }
+
     document.removeEventListener('keydown', this.onKeydown)
 
     if (!this.props.allowScroll) {
