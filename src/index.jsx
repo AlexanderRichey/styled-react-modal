@@ -35,6 +35,8 @@ class Modal extends Component {
 
     this.onKeydown = this.onKeydown.bind(this)
     this.onBackgroundClick = this.onBackgroundClick.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   static styled (...args) {
@@ -59,20 +61,32 @@ class Modal extends Component {
   componentDidUpdate (prevProps, prevState) {
     if (prevState.isOpen !== this.state.isOpen) {
       if (!this.state.isOpen) {
-        modalNode && this.node && modalNode.removeChild(this.node)
-        document.removeEventListener('keydown', this.onKeydown)
-
-        if (!this.props.allowScroll) {
-          document.body.style.overflow = this.prevBodyOverflow || ''
-        }
+        this.handleClose()
       } else if (this.state.isOpen) {
-        document.addEventListener('keydown', this.onKeydown)
-
-        if (!this.props.allowScroll) {
-          this.prevBodyOverflow = document.body.style.overflow
-          document.body.style.overflow = 'hidden'
-        }
+        this.handleOpen()
       }
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.state.isOpen) this.handleClose()
+  }
+
+  handleClose () {
+    modalNode && this.node && modalNode.removeChild(this.node)
+    document.removeEventListener('keydown', this.onKeydown)
+
+    if (!this.props.allowScroll) {
+      document.body.style.overflow = this.prevBodyOverflow || ''
+    }
+  }
+
+  handleOpen () {
+    document.addEventListener('keydown', this.onKeydown)
+
+    if (!this.props.allowScroll) {
+      this.prevBodyOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
     }
   }
 
