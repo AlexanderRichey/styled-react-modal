@@ -27,8 +27,6 @@ class Modal extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { isOpen: false }
-
     this.node = null
     this.InnerStyles = styled.div`${props.styles}` || styled.div``
     this.prevBodyOverflow = null
@@ -47,22 +45,12 @@ class Modal extends Component {
     }
   }
 
-  static getDerivedStateFromProps (nextProps) {
-    if (!nextProps.isOpen) {
-      return { isOpen: false }
-    } else if (nextProps.isOpen) {
-      return { isOpen: true }
-    }
-
-    return null
-  }
-
   componentDidUpdate (prevProps, prevState) {
-    if (prevState.isOpen !== this.state.isOpen) {
-      if (!this.state.isOpen) {
+    if (prevProps.isOpen !== this.props.isOpen) {
+      if (!this.props.isOpen) {
         modalNode && this.node && modalNode.removeChild(this.node)
         this.cleanUp()
-      } else if (this.state.isOpen) {
+      } else if (this.props.isOpen) {
         document.addEventListener('keydown', this.onKeydown)
 
         if (!this.props.allowScroll) {
@@ -74,7 +62,7 @@ class Modal extends Component {
   }
 
   componentWillUnmount () {
-    if (this.state.isOpen) this.cleanUp()
+    if (this.props.isOpen) this.cleanUp()
   }
 
   cleanUp () {
