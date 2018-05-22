@@ -1,4 +1,10 @@
 {
   "presets": ["env", "react"],
-  "plugins": ["transform-object-rest-spread"]
+  "plugins": [
+    "transform-object-rest-spread", 
+    ["babel-plugin-styled-components", {
+      "displayName": true,
+      "ssr": true
+    }]
+  ]
 }

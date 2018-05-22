@@ -3,22 +3,41 @@ import ReactDOM from 'react-dom'
 import styled, { css } from 'styled-components'
 import { BaseModalBackground } from './baseStyles'
 
-let modalNode = null
-let BackgroundComponent = BaseModalBackground
+const { Provider, Consumer } = React.createContext(null)
 
 class ModalProvider extends Component {
-  componentDidMount () {
-    if (this.props.backgroundComponent) {
-      BackgroundComponent = this.props.backgroundComponent
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      modalNode: null,
+      BackgroundComponent: BaseModalBackground
     }
+
+    this.setModalNode = this.setModalNode.bind(this)
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (nextProps.backgroundComponent !== prevState.BackgroundComponent) {
+      return { BackgroundComponent: nextProps.backgroundComponent }
+    }
+
+    return null
+  }
+
+  setModalNode (node) {
+    this.setState({ modalNode: node })
   }
 
   render () {
     return (
-      <React.Fragment>
+      <Provider value={{
+        modalNode: this.state.modalNode,
+        BackgroundComponent: this.state.BackgroundComponent
+      }}>
         {this.props.children}
-        <div ref={node => { modalNode = node }} />
-      </React.Fragment>
+        <div ref={this.setModalNode} />
+      </Provider>
     )
   }
 }
@@ -30,7 +49,6 @@ class Modal extends Component {
     this.state = { isOpen: false }
 
     this.node = null
-    this.InnerStyles = styled.div`${props.styles}` || styled.div``
     this.prevBodyOverflow = null
 
     this.onKeydown = this.onKeydown.bind(this)
@@ -39,10 +57,10 @@ class Modal extends Component {
   }
 
   static styled (...args) {
-    const styles = css(...args)
+    const styles = styled.div`${css(...args)}` || styled.div``
     return class __StyledModal extends Component {
       render () {
-        return <Modal styles={styles} {...this.props} />
+        return <Modal WrapperComponent={styles} {...this.props} />
       }
     }
   }
@@ -60,7 +78,6 @@ class Modal extends Component {
   componentDidUpdate (prevProps, prevState) {
     if (prevState.isOpen !== this.state.isOpen) {
       if (!this.state.isOpen) {
-        modalNode && this.node && modalNode.removeChild(this.node)
         this.cleanUp()
       } else if (this.state.isOpen) {
         document.addEventListener('keydown', this.onKeydown)
@@ -98,21 +115,25 @@ class Modal extends Component {
   }
 
   render () {
-    const { isOpen, children, ...rest } = this.props
+    const { isOpen, WrapperComponent, children, ...rest } = this.props
 
-    if (isOpen) {
-      return ReactDOM.createPortal((
-        <BackgroundComponent
-          onClick={this.onBackgroundClick}
-          innerRef={node => { this.node = node }}>
-          <this.InnerStyles {...rest}>
-            {children}
-          </this.InnerStyles>
-        </BackgroundComponent>
-      ), modalNode)
-    } else {
-      return null
-    }
+    return (
+      <Consumer>
+        {({ modalNode, BackgroundComponent }) => {
+          if (modalNode && BackgroundComponent && isOpen) {
+            return ReactDOM.createPortal((
+              <BackgroundComponent
+                onClick={this.onBackgroundClick}
+                innerRef={node => { this.node = node }}>
+                <WrapperComponent {...rest}>
+                  {children}
+                </WrapperComponent>
+              </BackgroundComponent>
+            ), modalNode)
+          }
+        }}
+      </Consumer>
+    )
   }
 }
 
