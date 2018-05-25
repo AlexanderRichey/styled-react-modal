@@ -46,6 +46,8 @@ class Modal extends Component {
   constructor (props) {
     super(props)
 
+    this.state = { isOpen: false }
+
     this.node = null
     this.prevBodyOverflow = null
 
@@ -64,17 +66,44 @@ class Modal extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (prevProps.isOpen !== this.props.isOpen) {
-      if (!this.props.isOpen) {
+    // Handle state changes
+    if (prevState.isOpen !== this.state.isOpen) {
+      if (!this.state.isOpen) {
         this.cleanUp()
-      } else if (this.props.isOpen) {
+
+        this.props.afterClose && this.props.afterClose()
+      } else if (this.state.isOpen) {
         document.addEventListener('keydown', this.onKeydown)
 
         if (!this.props.allowScroll) {
           this.prevBodyOverflow = document.body.style.overflow
           document.body.style.overflow = 'hidden'
         }
+
+        this.props.afterOpen && this.props.afterOpen()
       }
+    }
+
+    // Handle prop changes
+    if (prevProps.isOpen !== this.props.isOpen) {
+      if (this.props.isOpen) {
+        this.handleChange('beforeOpen', { isOpen: true })
+      } else {
+        this.handleChange('beforeClose', { isOpen: false })
+      }
+    }
+  }
+
+  handleChange (event, newState) {
+    if (this.props[event]) {
+      try {
+        this.props[event]()
+          .then(() => this.setState(newState))
+      } catch (e) {
+        this.setState(newState)
+      }
+    } else {
+      this.setState(newState)
     }
   }
 
@@ -103,7 +132,8 @@ class Modal extends Component {
   }
 
   render () {
-    const { isOpen, WrapperComponent, children, ...rest } = this.props
+    const { WrapperComponent, children, ...rest } = this.props
+    const { isOpen } = this.state
 
     return (
       <Consumer>
