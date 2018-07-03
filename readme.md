@@ -4,7 +4,7 @@
 
 Styled React Modal is built with styled-components. It uses the latest React 16.x features and exposes a familiar, easy to use API. It supports `beforeOpen()`, `afterOpen()`, and other lifecycle hooks so that animations can be handled easily. Unlike several other modal implementations in React, it does not pollute the DOM with excessive nodes.
 
-**Demo:** [![Edit m9jlky57y](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/m9jlky57y)
+[**Demo on CodeSandbox**](https://codesandbox.io/s/m9jlky57y)
 
 ## Install
 
