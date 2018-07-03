@@ -18,7 +18,8 @@ class ModalProvider extends Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (nextProps.backgroundComponent !== prevState.BackgroundComponent) {
+    if (nextProps.backgroundComponent !== prevState.BackgroundComponent &&
+        nextProps.backgroundComponent) {
       return { BackgroundComponent: nextProps.backgroundComponent }
     }
 
