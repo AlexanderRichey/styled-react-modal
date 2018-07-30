@@ -1,10 +1,10 @@
 {
   "name": "styled-react-modal",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A React modal built with styled-components.",
   "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --env=jsdom",
     "start": "webpack --watch",
     "build": "webpack"
   },
@@ -17,6 +17,11 @@
     "styled-components",
     "modal",
     "react"
+  ],
+  "tags": [
+    "react",
+    "modal",
+    "styled-components"
   ],
   "author": "Alexander Richey <alex@meural.com>",
   "license": "MIT",
@@ -36,6 +41,9 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "jest": "^23.4.2",
+    "react-test-renderer": "^16.4.1",
+    "standard": "^11.0.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.13"
   }

@@ -136,6 +136,17 @@ class Modal extends Component {
     const { WrapperComponent, children, ...rest } = this.props
     const { isOpen } = this.state
 
+    let content
+    if (WrapperComponent) {
+      content = (
+        <WrapperComponent {...rest}>
+          {children}
+        </WrapperComponent>
+      )
+    } else {
+      content = children
+    }
+
     return (
       <Consumer>
         {({ modalNode, BackgroundComponent }) => {
@@ -144,9 +155,7 @@ class Modal extends Component {
               <BackgroundComponent
                 onClick={this.onBackgroundClick}
                 innerRef={node => { this.node = node }}>
-                <WrapperComponent {...rest}>
-                  {children}
-                </WrapperComponent>
+                {content}
               </BackgroundComponent>
             ), modalNode)
           }
