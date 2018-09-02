@@ -3,6 +3,8 @@ import { mount } from 'enzyme'
 
 import { ModalProvider } from '../src/index'
 
+/* global describe, it, expect */
+
 describe('<ModalProvider />', () => {
   it('renders without crashing', () => {
     const wrapper = mount(<ModalProvider />)
