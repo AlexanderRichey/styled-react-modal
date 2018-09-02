@@ -50,5 +50,8 @@
     "standard": "^11.0.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.13"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>tests/setupTests.js"
   }
 }
