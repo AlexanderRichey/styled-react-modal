@@ -1,3 +1,8 @@
 language: node_js
 node_js:
   - "node"
+before_install:
+  - npm i react react-dom styled-components
+cache:
+  directories:
+    - "node_modules"
