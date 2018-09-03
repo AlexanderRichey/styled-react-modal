@@ -3,8 +3,6 @@ node_js:
 - node
 before_install:
 - npm i react react-dom styled-components
-before_deploy:
-- npm run build
 deploy:
   provider: npm
   email: alex@meural.com
