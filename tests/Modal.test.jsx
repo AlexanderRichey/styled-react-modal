@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import Modal from '../src/index'
 
 /* global jest, describe, it, expect */
@@ -10,7 +10,32 @@ jest.mock('react-dom')
 describe('<Modal />', () => {
   ReactDOM.createPortal.mockImplementation(node => node)
 
-  const Content = () => <span>content</span>
+  const Background = () => <div />
+
+  it('renders nothing when not open', () => {
+    const outer = shallow(<Modal />)
+    const ModalChildren = outer.props().children
+    const inner = mount(
+      <ModalChildren
+        modalNode
+        BackgroundComponent={Background} />
+    )
+
+    expect(inner.html()).toBe(null)
+  })
+
+  it('renders children when open', () => {
+    const outer = shallow(<Modal />)
+    outer.setProps({ isOpen: true })
+    const ModalChildren = outer.props().children
+    const inner = shallow(
+      <ModalChildren
+        modalNode
+        BackgroundComponent={Background} />
+    )
+
+    expect(inner.html()).not.toBe(null)
+  })
 
   it('calls beforeOpen before it opens', () => {
     const mockCb = jest.fn()
@@ -18,9 +43,7 @@ describe('<Modal />', () => {
     const wrapper = shallow(
       <Modal
         beforeOpen={mockCb}
-        beforeClose={mockNoCallCb}>
-        <Content />
-      </Modal>
+        beforeClose={mockNoCallCb} />
     )
 
     wrapper.setProps({ isOpen: true })
@@ -35,9 +58,7 @@ describe('<Modal />', () => {
     const wrapper = shallow(
       <Modal
         afterOpen={mockCb}
-        afterClose={mockNoCallCb}>
-        <Content />
-      </Modal>
+        afterClose={mockNoCallCb} />
     )
 
     wrapper.setProps({ isOpen: true })
@@ -53,9 +74,7 @@ describe('<Modal />', () => {
       <Modal
         beforeOpen={openCb}
         afterOpen={openCb}
-        beforeClose={mockCb}>
-        <Content />
-      </Modal>
+        beforeClose={mockCb} />
     )
 
     wrapper.setProps({ isOpen: true })
@@ -72,9 +91,7 @@ describe('<Modal />', () => {
       <Modal
         beforeOpen={openCb}
         afterOpen={openCb}
-        afterClose={mockCb}>
-        <Content />
-      </Modal>
+        afterClose={mockCb} />
     )
 
     wrapper.setProps({ isOpen: true })
