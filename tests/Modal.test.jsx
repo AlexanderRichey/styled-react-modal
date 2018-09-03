@@ -1,40 +1,24 @@
 import React from 'react'
-import { mount, ReactWrapper } from 'enzyme'
+import ReactDOM from 'react-dom'
+import { shallow } from 'enzyme'
+import Modal from '../src/index'
 
-import Modal, { ModalProvider } from '../src/index'
+/* global jest, describe, it, expect */
 
-/* global describe, it, expect, afterEach */
+jest.mock('react-dom')
 
 describe('<Modal />', () => {
-  let wrapper
+  ReactDOM.createPortal.mockImplementation(node => node)
 
   const Content = () => <span>content</span>
 
-  afterEach(() => {
-    wrapper.unmount()
-  })
-
-  it('renders nothing when not open', () => {
-    wrapper = mount(
-      <ModalProvider>
-        <Modal isOpen={false}>
-          <Content />
-        </Modal>
-      </ModalProvider>
+  it('renders without crashing', () => {
+    const wrapper = shallow(
+      <Modal>
+        <Content />
+      </Modal>
     )
 
-    expect(wrapper.find(Content).exists()).not.toBeTruthy()
-  })
-
-  it('renders children when open', () => {
-    wrapper = mount(
-      <ModalProvider>
-        <Modal isOpen={true}>
-          <Content />
-        </Modal>
-      </ModalProvider>
-    )
-
-    expect(wrapper.find(Content).exists()).toBeTruthy()
+    expect(wrapper)
   })
 })

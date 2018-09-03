@@ -158,6 +158,8 @@ class Modal extends Component {
                 {content}
               </BackgroundComponent>
             ), modalNode)
+          } else {
+            return null
           }
         }}
       </Consumer>
