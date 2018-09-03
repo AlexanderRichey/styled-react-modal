@@ -1,8 +1,19 @@
 language: node_js
 node_js:
-  - "node"
+- node
 before_install:
-  - npm i react react-dom styled-components
+- npm i react react-dom styled-components
+before_deploy:
+- npm run build
+deploy:
+  provider: npm
+  email: alex@meural.com
+  api_key:
+    secure: viNtVjznwGi8tcVAaw4hHPQ6G6PvDSU5gFF+3P1acC32qfbYOAkyDJNSrPcvkshSZfByD4VhdjLDTXLI8LMHelx2cnRAmAWMeRysfIcphDkIXrBF2+kCJ4hfdQ1VxrMm+z/hgrgSM4B8UQe9zI1HardxKeN1zUGCUMT4Ujuk3/qYoHTa9mc4Xmk5zTccZdP3VrhoCUJa2x4r2opsOMtpVAbnED63Km8VNa0ANMvm8Wl4S91Nbzhf+Hd3XVh/8ggcC5sFNrSYSKQ2Q+FbY7ZkZ+yWpSq8ofK6yuh1ykNPAeqkzebvUzXe+9IgVBpzxiW74+E65QEERywW2Y2OiJUN3fqD9XuYKzgIfmSXcSS2eUgjlakMf+b1oiez8dXhjHJoGWRlEDneDQWG5/6uGDm5YtyB4iAlp668OQLf0C4TRKk1rGQkOjncFlhmB1zz8L1o4LFIRTREoxfroyYw2ywSqhDCZCuBf1JXgCDE9MnPO4wAUhwMTudqebPNipCtOfGggfJCazEOv3/zFHL7g1hBX+EYFUd/th4FmTwIfy1+ZVqQTtcl/b5AMEgduCb0ky62XJBGrgEGrysw5tI7sGslVkj2sofEqeAER9draGd6hEqIPCwhA/7UM0Wrty/dcSFbMoyBDG+7jbipY0F5Eni1D1xssLq1QhGFJu3C0zr0IhE=
+  on:
+    tags: true
+    repo: AlexanderRichey/styled-react-modal
+    branch: master
 cache:
   directories:
-    - "node_modules"
+  - node_modules
