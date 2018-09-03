@@ -14,5 +14,4 @@ deploy:
     branch: master
 cache:
   directories:
-  - node_modules
   - "$HOME/.npm"
