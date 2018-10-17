@@ -154,7 +154,7 @@ class Modal extends Component {
             return ReactDOM.createPortal((
               <BackgroundComponent
                 onClick={this.onBackgroundClick}
-                innerRef={node => { this.node = node }}>
+                ref={node => { this.node = node }}>
                 {content}
               </BackgroundComponent>
             ), modalNode)
