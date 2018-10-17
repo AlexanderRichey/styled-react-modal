@@ -133,7 +133,21 @@ class Modal extends Component {
   }
 
   render () {
-    const { WrapperComponent, children, ...rest } = this.props
+    // Destructuring own props to avoid unknown prop warning in the DOM.
+    const {
+      WrapperComponent,
+      children,
+      onBackgroundClick,
+      onEscapeKeydown,
+      allowScroll,
+      beforeOpen,
+      afterOpen,
+      beforeClose,
+      afterClose,
+      isOpen: isOpenProp,
+      ...rest
+    } = this.props
+
     const { isOpen } = this.state
 
     let content
