@@ -67,7 +67,7 @@ class Modal extends Component {
   }
 
   componentDidMount () {
-    this.setState({ isOpen: this.props.isOpen })
+    this.props.isOpen && this.setState({ isOpen: this.props.isOpen })
   }
 
   componentDidUpdate (prevProps, prevState) {
