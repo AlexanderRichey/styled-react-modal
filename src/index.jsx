@@ -66,6 +66,10 @@ class Modal extends Component {
     }
   }
 
+  componentDidMount () {
+    this.setState({ isOpen: this.props.isOpen })
+  }
+
   componentDidUpdate (prevProps, prevState) {
     // Handle state changes
     if (prevState.isOpen !== this.state.isOpen) {
