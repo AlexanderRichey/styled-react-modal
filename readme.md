@@ -1,6 +1,6 @@
 # Styled React Modal
 
-[![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![Build Status](https://travis-ci.com/AlexanderRichey/styled-react-modal.svg?branch=master)](https://travis-ci.com/AlexanderRichey/styled-react-modal) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7ab2a06aaa62493d9466c05483be8cc3)](https://www.codacy.com/app/alexander.richey/styled-react-modal?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AlexanderRichey/styled-react-modal&amp;utm_campaign=Badge_Grade)
+[![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![Build Status](https://travis-ci.com/AlexanderRichey/styled-react-modal.svg?branch=master)](https://travis-ci.com/AlexanderRichey/styled-react-modal) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal)
 
 > For support for **styled-components v3**, please use **styled-react-modal@1.0.0**.
 
@@ -162,6 +162,7 @@ Renders its children in a modal when open, nothing when not open.
 - `isOpen` \(Boolean\): A boolean that indicates whether the modal is to be open or closed.
 - [`onBackgroundClick`] \(Function\): A function that is called when the modal background is clicked.
 - [`onEscapeKeydown`] \(Function\): A function that is called when the escape key is pressed while the modal is open.
+- [`backgroundProps`] \(Object\): An props object that is spread over the `<ModalProvider />`s `backgroundComponent` when included.
 - [`allowScroll`] \(Boolean\): When true, scrolling in the document body is not disabled when the modal is open.
 - [`beforeOpen`] \(Function\): A function that is called before the modal opens. If this function returns a promise, then the modal is opened after the promise is resolved.
 - [`afterOpen`] \(Function\): A function that is called after the modal opens.
