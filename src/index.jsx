@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import styled, { css } from 'styled-components'
+import { Provider, Consumer } from './context'
 import { BaseModalBackground } from './baseStyles'
-
-const { Provider, Consumer } = React.createContext(null)
 
 class ModalProvider extends Component {
   constructor (props) {
