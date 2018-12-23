@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "test": "jest --coverage --verbose",
+    "lint": "standard src/",
     "start": "webpack --watch",
     "build": "webpack"
   },
