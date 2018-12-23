@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import styled, { css } from 'styled-components'
 import { Consumer } from './context'
 
-export default class Modal extends Component {
+class Modal extends Component {
   constructor (props) {
     super(props)
 
@@ -108,6 +108,7 @@ export default class Modal extends Component {
       afterOpen,
       beforeClose,
       afterClose,
+      backgroundProps,
       isOpen: isOpenProp,
       ...rest
     } = this.props
@@ -131,6 +132,7 @@ export default class Modal extends Component {
           if (modalNode && BackgroundComponent && isOpen) {
             return ReactDOM.createPortal((
               <BackgroundComponent
+                {...backgroundProps}
                 onClick={this.onBackgroundClick}
                 ref={node => { this.node = node }}>
                 {content}
@@ -144,3 +146,9 @@ export default class Modal extends Component {
     )
   }
 }
+
+Modal.defaultProps = {
+  backgroundProps: {}
+}
+
+export default Modal
