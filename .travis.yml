@@ -1,6 +1,9 @@
 language: node_js
 node_js:
 - node
+script:
+  - yarn test
+  - codecov
 deploy:
   provider: npm
   email: alex@meural.com
@@ -13,3 +16,5 @@ deploy:
 cache:
   directories:
   - "$HOME/.npm"
+env:
+  secure: zouVi6MHZ4n7scujsJmzWqtRUJazvBI2jknOlAG55r9hcvD+E6tMaKFvEVDVYfBviGxEGkqfkKMnu5TRYlrCaFlJMldq/GG0gTM7ksSyjLfUHaXu+dmDVoLAYjRh78gkRAR83YFRcGFAFoJpYvswVGn0gjOQhDRTN3EBHvLFHGUBFrGrVvpFcSA6ygsRggPFmAwzwB2ioDetC0Hd5XcnoBTov5mhppN/mEnb3VSs4v2tySqnFGtnjTQJ4rYPahwBCaiyxJ0diZt+djqLF4l+vHWST/kugLJa0XXgbSi6tV2iUoE39cbxC/0Ct/FUEnwPzgHqpxmp1SS+c9KxHT5QoilHjR9GzUemMWX/1eupIujq0hGjDzXY3rrP8GcAVZpdW8eZvDMGnSlSg4iA2saRiag2Me/I3vi6jbx246/5P/QtRviQAfVfEhT0EuXNU9WboLP/jz5/+4gGzKRf8JWPwzM3Wb/8WC8SAZeO/u5JavrsEpKN+XXIFRx0+wND+FO1ZlF5Te71ge3FsSeKJRMDtN48xnFaCkfZjzSc1A9UsMN8jzSy6YQDeZ6votcV16zE0DdxN/I9eC0Aujmed1Qj1whuSCQNjh2ohy63iIKs70wnLgtiRlTkjICjwMaRgYoL/Yy/duUPGHfNTfVWgo7rusJRiuMmZw+6foSyNbkIaow=
