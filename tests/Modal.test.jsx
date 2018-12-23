@@ -37,6 +37,37 @@ describe('<Modal />', () => {
     expect(inner.html()).not.toBe(null)
   })
 
+  it('passes backgroundProps to background', () => {
+    const backgroundProps = { opacity: 1 }
+
+    const outer = shallow(<Modal />)
+    outer.setProps({ isOpen: true, backgroundProps })
+    const ModalChildren = outer.props().children
+    const inner = shallow(
+      <ModalChildren
+        modalNode
+        BackgroundComponent={Background} />
+    )
+    const renderedBackgroundProps = inner.props()
+
+    expect(renderedBackgroundProps).toHaveProperty('opacity', 1)
+  })
+
+  it('renders WrapperComponent when included', () => {
+    const Wrapper = () => <span />
+    const outer = shallow(<Modal WrapperComponent={Wrapper} />)
+    outer.setProps({ isOpen: true })
+    const ModalChildren = outer.props().children
+    const inner = shallow(
+      <ModalChildren
+        modalNode
+        BackgroundComponent={Background} />
+    )
+
+    // We just check to see if the type is the same as the Wrapper
+    expect(inner.props().children.type().type).toEqual('span')
+  })
+
   it('calls beforeOpen before it opens', () => {
     const mockCb = jest.fn()
     const mockNoCallCb = jest.fn()
