@@ -1,6 +1,6 @@
 {
   "name": "styled-react-modal",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A React modal built with styled-components.",
   "main": "build/index.js",
   "scripts": {
@@ -48,6 +48,7 @@
     "babel-preset-react": "^6.24.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
+    "eslint": "^5.11.0",
     "jest": "^23.6.0",
     "jest-enzyme": "^7.0.1",
     "react": "^16.4.2",
