@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "test": "jest --coverage --verbose",
+    "lint": "standard src/",
     "start": "webpack --watch",
     "build": "webpack"
   },
@@ -58,7 +59,9 @@
     "webpack-cli": "^3.1.2"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>tests/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>tests/setupTests.js",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "standard": {
     "parser": "babel-eslint"
