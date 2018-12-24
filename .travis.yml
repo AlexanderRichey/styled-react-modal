@@ -8,7 +8,7 @@ script:
 - codecov
 deploy:
   provider: npm
-  email: alex@meural.com
+  email: alexander.richey@gmail.com
   api_key:
     secure: DtPpuiSj6SK9IP8nQSwgrRMbbRj/vs2GTQ+QuM2UjNMe/NCdFg/c7wBlODewktniLdzd0W9SIIWDf/RGZOqvgqd0LdNYllgI7Z51hVwP+wE2OtHH8c5bvmWZ4aoSwO3vaEHKEmCJagdItmL8BBYbFM2H0GKszE2BaGNBQ59wRaDTeNmdKAxxIUOnnt8n5Pcfs4D4xczPQaBx+E3P7I4czUwqpJpJa65nMk5RWMiqlYgojs2EpJM34yQR7kvP+2inJkEtvehdFok9c4JezDeHa8JgbM85epyXCFkPX3J2S/2v72A2oqyrtRM8HXvNQB381+fuRXY9hl3gKhjzAcB4L7KCNFOcmIqDN1gEHumMPkli4zpTN9ICyVBup5bmR+NquggwTQoebbuprey/RNQmi7+HvkZ9wZplYarM9XORR3GzFt3vRsgx5zljc2kNhlAMemVD5JGZZLUnZV82XZ1Pahydq/V4gGhYkfsZqk1T3ufr/tIYKWTPgtf2pV/2FL+TjmH/bAKJfJKTwEw/f5gI9KiiMiVqg87uyZUMKTCXke8QXDnv/Tv2G8re7allOVpIHaKbWxtgFATAe9tF2qqWLe6K6Rpg2ZHFJDvIH/zL4/tMIaI0xXs0wKu/l8bncLOE6Qld3O1hn1y6XSwt0UqWtqaFAfzfYSHXDa0R1Dgkcuk=
   on:
