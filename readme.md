@@ -116,6 +116,7 @@ const SpecialModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 30;
+  opacity: ${props => props.opacity};
   background-color: green;
 `
 
@@ -162,7 +163,7 @@ Renders its children in a modal when open, nothing when not open.
 - `isOpen` \(Boolean\): A boolean that indicates whether the modal is to be open or closed.
 - [`onBackgroundClick`] \(Function\): A function that is called when the modal background is clicked.
 - [`onEscapeKeydown`] \(Function\): A function that is called when the escape key is pressed while the modal is open.
-- [`backgroundProps`] \(Object\): An props object that is spread over the `<ModalProvider />`s `backgroundComponent` when included.
+- [`backgroundProps`] \(Object\): A props object that is spread over the `backgroundComponent` when included.
 - [`allowScroll`] \(Boolean\): When true, scrolling in the document body is not disabled when the modal is open.
 - [`beforeOpen`] \(Function\): A function that is called before the modal opens. If this function returns a promise, then the modal is opened after the promise is resolved.
 - [`afterOpen`] \(Function\): A function that is called after the modal opens.
