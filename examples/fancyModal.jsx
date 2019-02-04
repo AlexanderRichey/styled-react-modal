@@ -24,7 +24,7 @@ class FancyModalButton extends Component {
   }
 
   toggleModal (e) {
-    this.setState({ isOpen: !this.state.isOpen })
+    this.setState((prevState) => ({ isOpen: !prevState.isOpen }))
   }
 
   render () {
