@@ -91,7 +91,7 @@ class Modal extends Component {
   }
 
   onBackgroundClick (e) {
-    if (this.node === e.target) {
+    if (this.node === e.target || e.target === ReactDOM.findDOMNode(this.node)) {
       this.props.onBackgroundClick && this.props.onBackgroundClick(e)
     }
   }
