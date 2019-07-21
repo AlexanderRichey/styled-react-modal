@@ -1,6 +1,6 @@
 {
   "name": "styled-react-modal",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A React modal built with styled-components.",
   "main": "build/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "modal",
     "styled-components"
   ],
-  "author": "Alexander Richey <alex@meural.com>",
+  "author": "Alexander Richey <alexander.richey@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AlexanderRichey/styled-react-modal/issues"
