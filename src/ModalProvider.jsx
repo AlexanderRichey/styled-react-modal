@@ -1,41 +1,36 @@
-import React, { Component } from 'react'
-import { BaseModalBackground } from './baseStyles'
-import { Provider } from './context'
+import React, { useState, useEffect, useRef } from "react";
+import { BaseModalBackground } from "./baseStyles";
+import { Provider } from "./context";
 
-export default class ModalProvider extends Component {
-  constructor (props) {
-    super(props)
+export default function ModalProvider({
+  backgroundComponent: propsBackgroundComponent,
+  children
+}) {
+  const modalNode = useRef(null);
+  const [stateModalNode, setStateModalNode] = useState(null);
+  const [BackgroundComponent, setBackgroundComponent] = useState(
+    BaseModalBackground
+  );
 
-    this.state = {
-      modalNode: null,
-      BackgroundComponent: BaseModalBackground
+  useEffect(() => {
+    if (propsBackgroundComponent) {
+      setBackgroundComponent(propsBackgroundComponent);
     }
+  }, [setBackgroundComponent, propsBackgroundComponent]);
 
-    this.setModalNode = this.setModalNode.bind(this)
-  }
+  useEffect(() => {
+    setStateModalNode(modalNode.current);
+  }, [setStateModalNode, modalNode]);
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    if (nextProps.backgroundComponent !== prevState.BackgroundComponent &&
-        nextProps.backgroundComponent) {
-      return { BackgroundComponent: nextProps.backgroundComponent }
-    }
-
-    return null
-  }
-
-  setModalNode (node) {
-    this.setState({ modalNode: node })
-  }
-
-  render () {
-    return (
-      <Provider value={{
-        modalNode: this.state.modalNode,
-        BackgroundComponent: this.state.BackgroundComponent
-      }}>
-        {this.props.children}
-        <div ref={this.setModalNode} />
-      </Provider>
-    )
-  }
+  return (
+    <Provider
+      value={{
+        modalNode: stateModalNode,
+        BackgroundComponent: BackgroundComponent
+      }}
+    >
+      {children}
+      <div ref={modalNode} />
+    </Provider>
+  );
 }

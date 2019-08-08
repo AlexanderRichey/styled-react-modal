@@ -1,6 +1,6 @@
 {
   "name": "styled-react-modal",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "description": "A React modal built with styled-components.",
   "main": "build/index.js",
   "scripts": {
@@ -31,9 +31,9 @@
   },
   "homepage": "https://github.com/AlexanderRichey/styled-react-modal#readme",
   "peerDependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "styled-components": "^4.0.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -51,11 +51,11 @@
     "eslint": "^5.11.0",
     "jest": "^23.6.0",
     "jest-enzyme": "^7.0.1",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-test-renderer": "^16.6.0",
     "standard": "^12.0.1",
-    "styled-components": "^4.0.0",
+    "styled-components": "^4.3.2",
     "webpack": "^4.24.0",
     "webpack-cli": "^3.1.2"
   },

@@ -1,154 +1,150 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import styled, { css } from 'styled-components'
-import { Consumer } from './context'
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import ReactDOM from "react-dom";
+import styled, { css } from "styled-components";
+import { Consumer } from "./context";
 
-class Modal extends Component {
-  constructor (props) {
-    super(props)
+function Modal({
+  WrapperComponent,
+  children,
+  onBackgroundClick,
+  onEscapeKeydown,
+  allowScroll,
+  beforeOpen,
+  afterOpen,
+  beforeClose,
+  afterClose,
+  backgroundProps,
+  isOpen: isOpenProp,
+  ...rest
+}) {
+  const node = useRef(null);
+  const prevBodyOverflowStyle = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const onEscapeKeydownCallback = useCallback(onEscapeKeydown);
+  const onBackgroundClickCallback = useCallback(onBackgroundClick);
+  const beforeOpenCallback = useCallback(beforeOpen);
+  const afterOpenCallback = useCallback(afterOpen);
+  const beforeCloseCallback = useCallback(beforeClose);
+  const afterCloseCallback = useCallback(afterClose);
 
-    this.state = { isOpen: false }
-
-    this.node = null
-    this.prevBodyOverflow = null
-
-    this.onKeydown = this.onKeydown.bind(this)
-    this.onBackgroundClick = this.onBackgroundClick.bind(this)
-    this.cleanUp = this.cleanUp.bind(this)
-  }
-
-  static styled (...args) {
-    const styles = styled.div`${css(...args)}` || styled.div``
-    return class __StyledModal extends Component {
-      render () {
-        return <Modal WrapperComponent={styles} {...this.props} />
-      }
-    }
-  }
-
-  componentDidMount () {
-    this.props.isOpen && this.setState({ isOpen: this.props.isOpen })
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    // Handle state changes
-    if (prevState.isOpen !== this.state.isOpen) {
-      if (!this.state.isOpen) {
-        this.cleanUp()
-
-        this.props.afterClose && this.props.afterClose()
-      } else if (this.state.isOpen) {
-        document.addEventListener('keydown', this.onKeydown)
-
-        if (!this.props.allowScroll) {
-          this.prevBodyOverflow = document.body.style.overflow
-          document.body.style.overflow = 'hidden'
-        }
-
-        this.props.afterOpen && this.props.afterOpen()
-      }
-    }
-
-    // Handle prop changes
-    if (prevProps.isOpen !== this.props.isOpen) {
-      if (this.props.isOpen) {
-        this.handleChange('beforeOpen', { isOpen: true })
-      } else {
-        this.handleChange('beforeClose', { isOpen: false })
-      }
-    }
-  }
-
-  handleChange (event, newState) {
-    if (this.props[event]) {
-      try {
-        this.props[event]()
-          .then(() => this.setState(newState))
-      } catch (e) {
-        this.setState(newState)
-      }
-    } else {
-      this.setState(newState)
-    }
-  }
-
-  componentWillUnmount () {
-    if (this.props.isOpen) this.cleanUp()
-  }
-
-  cleanUp () {
-    document.removeEventListener('keydown', this.onKeydown)
-
-    if (!this.props.allowScroll) {
-      document.body.style.overflow = this.prevBodyOverflow || ''
-    }
-  }
-
-  onKeydown (e) {
-    if (e.key === 'Escape') {
-      this.props.onEscapeKeydown && this.props.onEscapeKeydown(e)
-    }
-  }
-
-  onBackgroundClick (e) {
-    if (this.node === e.target) {
-      this.props.onBackgroundClick && this.props.onBackgroundClick(e)
-    }
-  }
-
-  render () {
-    // Destructuring own props to avoid unknown prop warning in the DOM.
-    const {
-      WrapperComponent,
-      children,
-      onBackgroundClick,
-      onEscapeKeydown,
-      allowScroll,
-      beforeOpen,
-      afterOpen,
-      beforeClose,
-      afterClose,
-      backgroundProps,
-      isOpen: isOpenProp,
-      ...rest
-    } = this.props
-
-    const { isOpen } = this.state
-
-    let content
-    if (WrapperComponent) {
-      content = (
-        <WrapperComponent {...rest}>
-          {children}
-        </WrapperComponent>
-      )
-    } else {
-      content = children
-    }
-
-    return (
-      <Consumer>
-        {({ modalNode, BackgroundComponent }) => {
-          if (modalNode && BackgroundComponent && isOpen) {
-            return ReactDOM.createPortal((
-              <BackgroundComponent
-                {...backgroundProps}
-                onClick={this.onBackgroundClick}
-                ref={node => { this.node = node }}>
-                {content}
-              </BackgroundComponent>
-            ), modalNode)
-          } else {
-            return null
+  // Handle changing isOpen state and deal with *before* isOpen change
+  // callbacks
+  useEffect(() => {
+    if (isOpen !== isOpenProp) {
+      if (isOpenProp) {
+        if (beforeOpenCallback) {
+          try {
+            beforeOpenCallback().then(() => setIsOpen(isOpenProp));
+            return;
+          } catch (e) {
+            setIsOpen(isOpenProp);
           }
-        }}
-      </Consumer>
-    )
+        } else {
+          setIsOpen(isOpenProp);
+        }
+      } else {
+        if (beforeCloseCallback) {
+          try {
+            beforeCloseCallback().then(() => setIsOpen(isOpenProp));
+            return;
+          } catch (e) {
+            setIsOpen(isOpenProp);
+          }
+        } else {
+          setIsOpen(isOpenProp);
+        }
+      }
+    }
+  }, [isOpen, setIsOpen, isOpenProp, beforeOpenCallback, beforeCloseCallback]);
+
+  // Handle *after* isOpen change callbacks
+  useEffect(() => {
+    if (isOpen) {
+      afterOpenCallback && afterOpenCallback();
+    } else {
+      afterCloseCallback && afterCloseCallback();
+    }
+  }, [isOpen, afterOpenCallback, afterCloseCallback]);
+
+  // Handle ESC keydown
+  useEffect(() => {
+    function handleKeydown(e) {
+      if (e.key === "Escape") {
+        onEscapeKeydownCallback && onEscapeKeydownCallback(e);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeydown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, [isOpen, onEscapeKeydownCallback, afterOpenCallback]);
+
+  // Handle changing document.body styles based on isOpen state
+  useEffect(() => {
+    if (isOpen && !allowScroll) {
+      prevBodyOverflowStyle.current = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      if (!allowScroll) {
+        document.body.style.overflow = prevBodyOverflowStyle.current || "";
+      }
+    };
+  }, [isOpen, allowScroll]);
+
+  function handleBackgroundClick(e) {
+    if (node.current === e.target) {
+      onBackgroundClickCallback && onBackgroundClickCallback(e);
+    }
   }
+
+  // Rendering stuff
+  let content;
+  if (WrapperComponent) {
+    content = <WrapperComponent {...rest}>{children}</WrapperComponent>;
+  } else {
+    content = children;
+  }
+
+  return (
+    <Consumer>
+      {({ modalNode, BackgroundComponent }) => {
+        if (modalNode && BackgroundComponent && isOpen) {
+          return ReactDOM.createPortal(
+            <BackgroundComponent
+              {...backgroundProps}
+              onClick={handleBackgroundClick}
+              ref={node}
+            >
+              {content}
+            </BackgroundComponent>,
+            modalNode
+          );
+        } else {
+          return null;
+        }
+      }}
+    </Consumer>
+  );
 }
+
+Modal.styled = function(...args) {
+  const styles =
+    styled.div`
+      ${css(...args)}
+    ` || styled.div``;
+  return function(props) {
+    return <Modal WrapperComponent={styles} {...props} />;
+  };
+};
 
 Modal.defaultProps = {
   backgroundProps: {}
-}
+};
 
-export default Modal
+export default Modal;
