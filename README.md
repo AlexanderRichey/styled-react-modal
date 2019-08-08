@@ -1,6 +1,9 @@
 # Styled React Modal
 
-[![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![Build Status](https://travis-ci.com/AlexanderRichey/styled-react-modal.svg?branch=master)](https://travis-ci.com/AlexanderRichey/styled-react-modal) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal)
+[![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+ [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![Build Status](https://travis-ci.com/AlexanderRichey/styled-react-modal.svg?branch=master)](https://travis-ci.com/AlexanderRichey/styled-react-modal) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal)
+
+> For support for **react <16.8** (before hooks), please use **styled-react-modal@1.2.4**.
 
 > For support for **styled-components v3**, please use **styled-react-modal@1.0.0**.
 
@@ -19,20 +22,18 @@ npm i -s styled-react-modal
 Add the `<ModalProvider>` component near the top of your application's tree.
 
 ```js
-import React, { Component } from 'react'
+import React from 'react'
 import { ModalProvider } from 'styled-react-modal'
 ...
 
-export default class App extends Component {
-  render () {
-    return (
-      <ThemeProvider theme={theme}>
-        <ModalProvider>
-          <FancyModalButton />
-        </ModalProvider>
-      </ThemeProvider>
-    )
-  }
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <ModalProvider>
+        <FancyModalButton />
+      </ModalProvider>
+    </ThemeProvider>
+  )
 }
 ```
 
@@ -51,31 +52,23 @@ const StyledModal = Modal.styled`
   background-color: ${props => props.theme.colors.white};
 `
 
-class FancyModalButton extends Component {
-  constructor (props) {
-    super(props)
+function FancyModalButton() {
+  const [isOpen, setIsOpen] = useState(false)
 
-    this.state = {
-      isOpen: false,
-    }
-
-    this.toggleModal = this.toggleModal.bind(this)
-  }
-
-  toggleModal (e) {
-    this.setState((prevState) => ({ isOpen: !prevState.isOpen }))
+  function toggleModal(e) {
+    setIsOpen(!isOpen)
   }
 
   render () {
     return (
       <div>
-        <button onClick={this.toggleModal}>Click me</button>
+        <button onClick={toggleModal}>Click me</button>
         <StyledModal
-          isOpen={this.state.isOpen}
-          onBackgroundClick={this.toggleModal}
-          onEscapeKeydown={this.toggleModal}>
+          isOpen={isOpen}
+          onBackgroundClick={toggleModal}
+          onEscapeKeydown={toggleModal}>
           <span>I am a modal!</span>
-          <button onClick={this.toggleModal}>Close me</button>
+          <button onClick={toggleModal}>Close me</button>
         </StyledModal>
       </div>
     )
@@ -120,16 +113,14 @@ const SpecialModalBackground = styled.div`
   background-color: green;
 `
 
-export default class App extends Component {
-  render () {
-    return (
-      <ThemeProvider theme={theme}>
-        <ModalProvider backgroundComponent={SpecialModalBackground}>
-          <FancyModalButton />
-        </ModalProvider>
-      </ThemeProvider>
-    )
-  }
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <ModalProvider backgroundComponent={SpecialModalBackground}>
+        <FancyModalButton />
+      </ModalProvider>
+    </ThemeProvider>
+  )
 }
 ```
 
@@ -176,33 +167,29 @@ Renders its children in a modal when open, nothing when not open.
 ```js
 import Modal from 'styled-react-modal'
 
-class FancyModalButton extends Component {
-  constructor (props) {
-    super(props)
+function FancyModalButton() {
+  const [isOpen, setIsOpen] = useState(false)
 
-    this.state = {
-      isOpen: false,
-    }
-
-    this.toggleModal = this.toggleModal.bind(this)
-  }
-
-  toggleModal (e) {
-    this.setState((prevState) => ({ isOpen: !prevState.isOpen }))
+  function toggleModal(e) {
+    setIsOpen(!isOpen)
   }
 
   render () {
     return (
       <div>
-        <button onClick={this.toggleModal}>Click me</button>
-        <Modal isOpen={this.state.isOpen}>
+        <button onClick={toggleModal}>Click me</button>
+        <Modal
+          isOpen={isOpen}
+          onBackgroundClick={toggleModal}
+          onEscapeKeydown={toggleModal}>
           <span>I am a modal!</span>
-          <button onClick={this.toggleModal}>Close me</button>
+          <button onClick={toggleModal}>Close me</button>
         </Modal>
       </div>
     )
   }
 }
+
 ```
 
 ### `<BaseModalBackground>`
