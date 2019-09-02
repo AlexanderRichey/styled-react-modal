@@ -19,9 +19,12 @@ function Modal({
 }) {
   const node = useRef(null);
   const prevBodyOverflowStyle = useRef(null);
+
   const [isOpen, setIsOpen] = useState(false);
+
   const onEscapeKeydownCallback = useCallback(onEscapeKeydown);
   const onBackgroundClickCallback = useCallback(onBackgroundClick);
+
   const beforeOpenCallback = useCallback(beforeOpen);
   const afterOpenCallback = useCallback(afterOpen);
   const beforeCloseCallback = useCallback(beforeClose);
@@ -30,29 +33,23 @@ function Modal({
   // Handle changing isOpen state and deal with *before* isOpen change
   // callbacks
   useEffect(() => {
-    if (isOpen !== isOpenProp) {
-      if (isOpenProp) {
-        if (beforeOpenCallback) {
-          try {
-            beforeOpenCallback().then(() => setIsOpen(isOpenProp));
-            return;
-          } catch (e) {
-            setIsOpen(isOpenProp);
-          }
-        } else {
-          setIsOpen(isOpenProp);
+    function handleChange(callback, setter) {
+      if (callback) {
+        try {
+          callback().then(() => setter(isOpenProp));
+        } catch (e) {
+          setter(isOpenProp);
         }
       } else {
-        if (beforeCloseCallback) {
-          try {
-            beforeCloseCallback().then(() => setIsOpen(isOpenProp));
-            return;
-          } catch (e) {
-            setIsOpen(isOpenProp);
-          }
-        } else {
-          setIsOpen(isOpenProp);
-        }
+        setter(isOpenProp);
+      }
+    }
+
+    if (isOpen !== isOpenProp) {
+      if (isOpenProp) {
+        handleChange(beforeOpenCallback, setIsOpen)
+      } else {
+        handleChange(beforeCloseCallback, setIsOpen)
       }
     }
   }, [isOpen, setIsOpen, isOpenProp, beforeOpenCallback, beforeCloseCallback]);

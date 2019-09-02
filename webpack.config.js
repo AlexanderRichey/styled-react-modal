@@ -1,35 +1,35 @@
-var path = require('path')
+const path = require("path");
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: "./src/index.jsx",
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'index.js',
-    libraryTarget: 'commonjs2',
-    library: 'StyledReactModal'
+    path: path.resolve(__dirname, "build"),
+    filename: "index.js",
+    libraryTarget: "commonjs2",
+    library: "StyledReactModal"
   },
-  mode: 'production',
+  mode: "production",
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, "src"),
         exclude: /(node_modules|build)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['env', 'react']
+            presets: ["@babel/env", "@babel/react"]
           }
         }
       }
     ]
   },
   externals: {
-    'react': 'commonjs react',
-    'react-dom': 'commonjs react-dom',
-    'styled-components': 'commonjs styled-components'
+    react: "commonjs react",
+    "react-dom": "commonjs react-dom",
+    "styled-components": "commonjs styled-components"
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [".js", ".jsx"]
   }
-}
+};

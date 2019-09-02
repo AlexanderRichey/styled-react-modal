@@ -1,145 +1,143 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { shallow, mount } from 'enzyme'
-import Modal from '../src/index'
+import "@testing-library/jest-dom/extend-expect";
 
-/* global jest, describe, it, expect */
+import React, { useState } from "react";
+import styled from "styled-components";
+import { render, fireEvent } from "@testing-library/react";
+import Modal, { ModalProvider } from "../src";
 
-jest.mock('react-dom')
+function StatefulModal(props) {
+  const { isOpen: propsIsOpen, ...rest } = props;
+  const [isOpen, setIsOpen] = useState(propsIsOpen);
+  return (
+    <div>
+      <button data-testid="button" onClick={() => setIsOpen(!isOpen)}>
+        Click me
+      </button>
+      <Modal isOpen={isOpen} {...rest}>
+        <span data-testid="content">Hello world</span>
+      </Modal>
+    </div>
+  );
+}
 
-describe('<Modal />', () => {
-  ReactDOM.createPortal.mockImplementation(node => node)
+function renderWithProvider(modalProps = {}, providerProps = {}) {
+  const finalModalProps = {
+    isOpen: false,
+    onBackgroundClick: jest.fn(),
+    onEscapeKeyDown: jest.fn(),
+    ...modalProps
+  };
 
-  const Background = () => <div />
+  return render(
+    <ModalProvider data-testid="provider" {...providerProps}>
+      <StatefulModal {...finalModalProps} />
+    </ModalProvider>
+  );
+}
 
-  it('renders nothing when not open', () => {
-    const outer = shallow(<Modal />)
-    const ModalChildren = outer.props().children
-    const inner = mount(
-      <ModalChildren
-        modalNode
-        BackgroundComponent={Background} />
-    )
+describe("<Modal />", () => {
+  it("renders nothing when not open", () => {
+    const { queryByText } = renderWithProvider();
+    expect(queryByText("Hello world")).toBeNull();
+  });
 
-    expect(inner.html()).toBe(null)
-  })
+  it("renders children when open", () => {
+    const { getByText } = renderWithProvider({ isOpen: true });
+    expect(getByText("Hello world")).toBeTruthy();
+  });
 
-  it('renders children when open', () => {
-    const outer = shallow(<Modal />)
-    outer.setProps({ isOpen: true })
-    const ModalChildren = outer.props().children
-    const inner = shallow(
-      <ModalChildren
-        modalNode
-        BackgroundComponent={Background} />
-    )
+  it("calls onBackgroundClick when the background is clicked", () => {
+    const spy = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      onBackgroundClick: spy,
+      isOpen: true,
+      backgroundProps: { "data-testid": "background" }
+    });
+    fireEvent.click(getByTestId("background"));
+    expect(spy.mock.calls.length).toBe(1);
+  });
 
-    expect(inner.html()).not.toBe(null)
-  })
+  it("calls onEscapeKeydown when the escape key is pressed", () => {
+    const spy = jest.fn();
+    renderWithProvider({
+      isOpen: true,
+      onEscapeKeydown: spy
+    });
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(spy.mock.calls.length).toBe(1);
+  });
 
-  it('passes backgroundProps to background', () => {
-    const backgroundProps = { opacity: 1 }
+  it("calls beforeOpen() before it opens", () => {
+    const spy = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      beforeOpen: spy
+    });
+    fireEvent.click(getByTestId("button"));
+    expect(spy.mock.calls.length).toBe(1);
+  });
 
-    const outer = shallow(<Modal />)
-    outer.setProps({ isOpen: true, backgroundProps })
-    const ModalChildren = outer.props().children
-    const inner = shallow(
-      <ModalChildren
-        modalNode
-        BackgroundComponent={Background} />
-    )
-    const renderedBackgroundProps = inner.props()
+  it("calls afterOpen() after it opens", () => {
+    const spy = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      afterOpen: spy
+    });
+    fireEvent.click(getByTestId("button"));
+    expect(spy.mock.calls.length).toBe(1);
+  });
 
-    expect(renderedBackgroundProps).toHaveProperty('opacity', 1)
-  })
+  it("calls beforeClose() before it closes", () => {
+    const spy = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      isOpen: true,
+      beforeClose: spy
+    });
+    fireEvent.click(getByTestId("button"));
+    expect(spy.mock.calls.length).toBe(1);
+  });
 
-  it('renders WrapperComponent when included', () => {
-    const Wrapper = () => <span />
-    const outer = shallow(<Modal WrapperComponent={Wrapper} />)
-    outer.setProps({ isOpen: true })
-    const ModalChildren = outer.props().children
-    const inner = shallow(
-      <ModalChildren
-        modalNode
-        BackgroundComponent={Background} />
-    )
+  it("calls afterClose() after it closes", () => {
+    const spy = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      isOpen: true,
+      afterClose: spy
+    });
+    fireEvent.click(getByTestId("button"));
+    // We expect two calls because afterClose() is also called
+    // on the initial mount
+    expect(spy.mock.calls.length).toBe(2);
+  });
 
-    // We just check to see if the type is the same as the Wrapper
-    expect(inner.props().children.type().type).toEqual('span')
-  })
+  it("passes background props to background", () => {
+    const Background = styled.div`
+      background: ${props => props.color || "green"};
+    `;
 
-  it('calls beforeOpen before it opens', () => {
-    const mockCb = jest.fn()
-    const mockNoCallCb = jest.fn()
-    const wrapper = shallow(
-      <Modal
-        beforeOpen={mockCb}
-        beforeClose={mockNoCallCb} />
-    )
+    const { getByTestId } = renderWithProvider(
+      {
+        isOpen: true,
+        backgroundProps: { color: "blue", "data-testid": "background" }
+      },
+      {
+        backgroundComponent: Background
+      }
+    );
 
-    wrapper.setProps({ isOpen: true })
+    expect(getByTestId("background")).toHaveStyle(`background: blue`);
+  });
+});
 
-    expect(mockCb.mock.calls.length).toBe(1)
-    expect(mockNoCallCb.mock.calls.length).toBe(0)
-  })
-
-  it('calls afterOpen after it opens', () => {
-    const mockCb = jest.fn()
-    const mockNoCallCb = jest.fn()
-    const wrapper = shallow(
-      <Modal
-        afterOpen={mockCb}
-        afterClose={mockNoCallCb} />
-    )
-
-    wrapper.setProps({ isOpen: true })
-
-    expect(mockCb.mock.calls.length).toBe(1)
-    expect(mockNoCallCb.mock.calls.length).toBe(0)
-  })
-
-  it('calls beforeClose before it closes', () => {
-    const openCb = jest.fn()
-    const mockCb = jest.fn()
-    const wrapper = shallow(
-      <Modal
-        beforeOpen={openCb}
-        afterOpen={openCb}
-        beforeClose={mockCb} />
-    )
-
-    wrapper.setProps({ isOpen: true })
-    wrapper.setProps({ isOpen: false })
-
-    expect(openCb.mock.calls.length).toBe(2)
-    expect(mockCb.mock.calls.length).toBe(1)
-  })
-
-  it('calls afterClose after it closes', () => {
-    const openCb = jest.fn()
-    const mockCb = jest.fn()
-    const wrapper = shallow(
-      <Modal
-        beforeOpen={openCb}
-        afterOpen={openCb}
-        afterClose={mockCb} />
-    )
-
-    wrapper.setProps({ isOpen: true })
-    wrapper.setProps({ isOpen: false })
-
-    expect(openCb.mock.calls.length).toBe(2)
-    expect(mockCb.mock.calls.length).toBe(1)
-  })
-})
-
-describe('Modal.styled()', () => {
-  it('returns to a Modal instance', () => {
+describe("Modal.styled()", () => {
+  it("returns to a <Modal /> instance", () => {
     const StyledModal = Modal.styled`
       background-color: green;
-    `
-    const wrapper = shallow(<StyledModal />)
+    `;
 
-    expect(wrapper.type()).toBe(Modal)
-  })
-})
+    const { getByTestId } = render(
+      <ModalProvider>
+        <StyledModal isOpen={true} data-testid="modal" />
+      </ModalProvider>
+    );
+
+    expect(getByTestId("modal")).toHaveStyle(`background-color: green`);
+  });
+});
