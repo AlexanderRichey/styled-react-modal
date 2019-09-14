@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const BaseModalBackground = styled.div`
   display: flex;
@@ -11,4 +11,4 @@ export const BaseModalBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
-`
+`;

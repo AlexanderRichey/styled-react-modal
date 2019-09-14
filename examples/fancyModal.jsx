@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import Modal, { ModalProvider } from 'styled-react-modal'
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Modal, { ModalProvider } from "styled-react-modal";
 
 const StyledModal = Modal.styled`
   width: 20rem;
@@ -9,49 +9,50 @@ const StyledModal = Modal.styled`
   align-items: center;
   justify-content: center;
   background-color: white;
-`
+`;
 
 class FancyModalButton extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       isOpen: false,
-      someInput: ''
-    }
+      someInput: ""
+    };
 
-    this.toggleModal = this.toggleModal.bind(this)
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  toggleModal (e) {
-    this.setState((prevState) => ({ isOpen: !prevState.isOpen }))
+  toggleModal(e) {
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
-  render () {
+  render() {
     return (
       <div>
         <button onClick={this.toggleModal}>Click me</button>
         <StyledModal
           isOpen={this.state.isOpen}
-          onBackgroundClick={this.toggleModal}
-          onEscapeKeydown={this.toggleModal}>
+          closeModal={this.toggleModal}
+          closeOnBackgroundClick={true}
+        >
           <span>I'm a modal!</span>
           <button onClick={this.toggleModal}>Close me</button>
         </StyledModal>
       </div>
-    )
+    );
   }
 }
 
 class App extends Component {
-  render () {
+  render() {
     return (
       <ModalProvider>
         <span>Hey checkout this cool modal!</span>
         <FancyModalButton />
       </ModalProvider>
-    )
+    );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
