@@ -3,7 +3,7 @@
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
  [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![Build Status](https://travis-ci.com/AlexanderRichey/styled-react-modal.svg?branch=master)](https://travis-ci.com/AlexanderRichey/styled-react-modal) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal)
 
-> For support for **react <16.8** (before hooks), please use **styled-react-modal@1.2.4**.
+> For support for **react <16.9**, please use **styled-react-modal@1.2.4**.
 
 > For support for **styled-components v3**, please use **styled-react-modal@1.0.0**.
 
