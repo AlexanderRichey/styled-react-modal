@@ -69,42 +69,52 @@ describe("<Modal />", () => {
 
   it("calls beforeOpen() before it opens", () => {
     const spy = jest.fn();
+    const sleeper = jest.fn();
     const { getByTestId } = renderWithProvider({
-      beforeOpen: spy
+      beforeOpen: spy,
+      beforeClose: sleeper
     });
     fireEvent.click(getByTestId("button"));
     expect(spy.mock.calls.length).toBe(1);
+    expect(sleeper).not.toHaveBeenCalled();
   });
 
   it("calls afterOpen() after it opens", () => {
     const spy = jest.fn();
+    const sleeper = jest.fn();
     const { getByTestId } = renderWithProvider({
-      afterOpen: spy
+      afterOpen: spy,
+      afterClose: sleeper
     });
     fireEvent.click(getByTestId("button"));
     expect(spy.mock.calls.length).toBe(1);
+    expect(sleeper).not.toHaveBeenCalled();
   });
 
   it("calls beforeClose() before it closes", () => {
     const spy = jest.fn();
+    const sleeper = jest.fn();
     const { getByTestId } = renderWithProvider({
       isOpen: true,
-      beforeClose: spy
+      beforeClose: spy,
+      beforeOpen: sleeper
     });
     fireEvent.click(getByTestId("button"));
     expect(spy.mock.calls.length).toBe(1);
+    expect(sleeper.mock.calls.length).toBe(1);
   });
 
   it("calls afterClose() after it closes", () => {
     const spy = jest.fn();
+    const sleeper = jest.fn();
     const { getByTestId } = renderWithProvider({
       isOpen: true,
-      afterClose: spy
+      afterClose: spy,
+      afterOpen: sleeper
     });
     fireEvent.click(getByTestId("button"));
-    // We expect two calls because afterClose() is also called
-    // on the initial mount
-    expect(spy.mock.calls.length).toBe(2);
+    expect(spy.mock.calls.length).toBe(1);
+    expect(sleeper.mock.calls.length).toBe(1);
   });
 
   it("passes background props to background", () => {
