@@ -103,8 +103,10 @@ function Modal({
           }
         }
       }
-      setWasOpen(true);
-      afterOpen && afterOpen();
+      if (!wasOpen) {
+        afterOpen && afterOpen();
+        setWasOpen(true);
+      }
     } else {
       // to make sure this will not run unless this modal was opened recently
       if (wasOpen) {

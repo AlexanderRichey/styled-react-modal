@@ -8,13 +8,19 @@ import Modal, { ModalProvider } from "../src";
 function StatefulModal(props) {
   const { isOpen: propsIsOpen, ...rest } = props;
   const [isOpen, setIsOpen] = useState(propsIsOpen);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div>
-      <button data-testid="button" onClick={() => setIsOpen(!isOpen)}>
+      <button data-testid="button" onClick={toggleModal}>
         Click me
       </button>
-      <Modal isOpen={isOpen} {...rest}>
-        <span data-testid="content">Hello world</span>
+      <Modal isOpen={isOpen} closeModal={toggleModal} {...rest}>
+        <div>
+          <span data-testid="content">Hello world</span>
+          <button onClick={toggleModal}>close</button>
+        </div>
       </Modal>
     </div>
   );
@@ -104,7 +110,7 @@ describe("<Modal />", () => {
     fireEvent.click(getByTestId("button"));
     // We expect two calls because afterClose() is also called
     // on the initial mount
-    expect(spy.mock.calls.length).toBe(2);
+    expect(spy.mock.calls.length).toBe(1);
   });
 
   it("passes background props to background", () => {
@@ -134,7 +140,9 @@ describe("Modal.styled()", () => {
 
     const { getByTestId } = render(
       <ModalProvider>
-        <StyledModal isOpen={true} data-testid="modal" />
+        <StyledModal isOpen={true} data-testid="modal">
+          <button>close</button>
+        </StyledModal>
       </ModalProvider>
     );
 

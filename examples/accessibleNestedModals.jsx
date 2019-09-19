@@ -99,6 +99,24 @@ const App = () => {
         aria-labelledby="modal-label"
         aria-describedby="modal-desc"
         elToFocusAfterCloseId="after-close-modal-1"
+        afterOpen={() => {
+          console.log("from afterOpen");
+        }}
+        beforeOpen={() => {
+          console.log("from beforeOpen");
+        }}
+        beforeClose={() => {
+          console.log("from beforeClose");
+        }}
+        afterClose={() => {
+          console.log("from afterClose");
+        }}
+        onBackgroundClick={() => {
+          console.log("from onBackgroundClick");
+        }}
+        onEscapeKeydown={() => {
+          console.log("from onEscapeKeydown");
+        }}
       >
         {/* ModalStyled will return a styled wrapper div so Modal will still return a single child */}
         <h2 id="modal-label">Verification Result</h2>
