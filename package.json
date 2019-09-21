@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "test": "jest --coverage --verbose",
-    "format": "prettier --write {src,tests,examples}/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "format": "prettier --write **/*.{js,jsx,json,yml,md}",
     "start": "webpack --watch",
     "build": "webpack"
   },
@@ -15,8 +15,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write",
+    "*.{js,jsx,json,yml,md}": [
+      "yarn format",
       "git add"
     ]
   },

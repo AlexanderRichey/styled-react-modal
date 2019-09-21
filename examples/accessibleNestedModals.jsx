@@ -90,7 +90,7 @@ const App = () => {
 
       {/* aria-labelledby and aria-describedby are used to make the Modal fully accessible */}
       {/* the element with id="after-close-modal-1" will be focused after the modal is closed 
-      ignoring of the last focused element before opening the modal which can be useful in 
+      ignoring the last focused element before opening the modal which can be useful in 
       some cases (not in this example for sure)*/}
       <ModalStyled
         isOpen={isModalOpen}

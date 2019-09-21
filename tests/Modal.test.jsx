@@ -13,13 +13,16 @@ function StatefulModal(props) {
   };
   return (
     <div>
-      <button data-testid="button" onClick={toggleModal}>
-        Click me
-      </button>
+      <button onClick={toggleModal}>open</button>
+      <button id="useless-button">useless</button>
       <Modal isOpen={isOpen} closeModal={toggleModal} {...rest}>
         <div>
-          <span data-testid="content">Hello world</span>
-          <button onClick={toggleModal}>close</button>
+          <p tabIndex="-1">hello</p>
+          <button>first</button>
+          <button id="close-button" onClick={toggleModal}>
+            close
+          </button>
+          <button>last</button>
         </div>
       </Modal>
     </div>
@@ -29,8 +32,6 @@ function StatefulModal(props) {
 function renderWithProvider(modalProps = {}, providerProps = {}) {
   const finalModalProps = {
     isOpen: false,
-    onBackgroundClick: jest.fn(),
-    onEscapeKeyDown: jest.fn(),
     ...modalProps
   };
 
@@ -44,15 +45,105 @@ function renderWithProvider(modalProps = {}, providerProps = {}) {
 describe("<Modal />", () => {
   it("renders nothing when not open", () => {
     const { queryByText } = renderWithProvider();
-    expect(queryByText("Hello world")).toBeNull();
+    expect(queryByText("hello")).toBeNull();
   });
 
   it("renders children when open", () => {
     const { getByText } = renderWithProvider({ isOpen: true });
-    expect(getByText("Hello world")).toBeTruthy();
+    expect(getByText("hello")).toBeTruthy();
   });
 
-  it("calls onBackgroundClick when the background is clicked", () => {
+  it("should have role=dialog and aria-modal=true", () => {
+    const { getByRole } = renderWithProvider({ isOpen: true });
+    expect(getByRole("dialog")).toHaveAttribute("aria-modal", "true");
+  });
+
+  it("should focus first tabbable element after open", () => {
+    const { getByText } = renderWithProvider({ isOpen: true });
+    expect(getByText("first")).toHaveFocus();
+  });
+
+  it("should focus element with elToFocusAfterOpenId after open", () => {
+    const { getByText } = renderWithProvider({
+      isOpen: true,
+      elToFocusAfterOpenId: "close-button"
+    });
+    expect(getByText("close")).toHaveFocus();
+  });
+
+  it("should focus last focused element before opening the modal after closing it", () => {
+    const { getByText } = renderWithProvider();
+    const openButton = getByText("open");
+    openButton.focus();
+    fireEvent.click(openButton);
+    fireEvent.click(getByText("close"));
+    expect(getByText("open")).toHaveFocus();
+  });
+
+  it("should focus element with elToFocusAfterCloseId after close", () => {
+    const { getByText } = renderWithProvider({
+      isOpen: true,
+      elToFocusAfterCloseId: "useless-button"
+    });
+    fireEvent.click(getByText("close"));
+    expect(getByText("useless")).toHaveFocus();
+  });
+
+  it("should focus first tabbable element when Tab key is pressed while the last tabbable element is focused", () => {
+    const { getByText } = renderWithProvider({
+      isOpen: true
+    });
+    getByText("last").focus();
+    fireEvent.keyDown(document, { keyCode: 9 });
+    expect(getByText("first")).toHaveFocus();
+  });
+
+  it("should focus last tabbable element when Shift + Tab keys are pressed while the first tabbable element is focused", () => {
+    const { getByText } = renderWithProvider({
+      isOpen: true
+    });
+    fireEvent.keyDown(document, { keyCode: 9, shiftKey: true });
+    expect(getByText("last")).toHaveFocus();
+  });
+
+  it("should focus first focusable element (with tabindex=-1) if first tabbable element isn't in view", () => {
+    // window.innerHeight=768 , window.innerWidth=1024
+    // mock getBoundingClientRect to make the elements out of viewport so isInView will return false
+    Element.prototype.getBoundingClientRect = () => ({
+      width: 150,
+      height: 50,
+      top: 900,
+      left: 0,
+      bottom: 950,
+      right: 150
+    });
+    const { getByText } = renderWithProvider({ isOpen: true });
+    // the first focusable element (tabindex=-1) will have focus because the first tabbable element isn't in view
+    expect(getByText("hello")).toHaveFocus();
+    // revert to the original jsdom getBoundingClientRect implementation again
+    Element.prototype.getBoundingClientRect = () => ({
+      width: 0,
+      height: 0,
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0
+    });
+  });
+
+  it("calls closeModal() when the background is clicked while closeOnBackgroundClick is true (default: false)", () => {
+    const spy = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      isOpen: true,
+      closeModal: spy,
+      closeOnBackgroundClick: true,
+      backgroundProps: { "data-testid": "background" }
+    });
+    fireEvent.click(getByTestId("background"));
+    expect(spy.mock.calls.length).toBe(1);
+  });
+
+  it("calls onBackgroundClick() when the background is clicked", () => {
     const spy = jest.fn();
     const { getByTestId } = renderWithProvider({
       onBackgroundClick: spy,
@@ -63,7 +154,17 @@ describe("<Modal />", () => {
     expect(spy.mock.calls.length).toBe(1);
   });
 
-  it("calls onEscapeKeydown when the escape key is pressed", () => {
+  it("calls closeModal() when the escape key is pressed while closeOnEscapeKeydown is true (default: true)", () => {
+    const spy = jest.fn();
+    renderWithProvider({
+      isOpen: true,
+      closeModal: spy
+    });
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(spy.mock.calls.length).toBe(1);
+  });
+
+  it("calls onEscapeKeydown() when the escape key is pressed", () => {
     const spy = jest.fn();
     renderWithProvider({
       isOpen: true,
@@ -75,41 +176,39 @@ describe("<Modal />", () => {
 
   it("calls beforeOpen() before it opens", () => {
     const spy = jest.fn();
-    const { getByTestId } = renderWithProvider({
+    const { getByText } = renderWithProvider({
       beforeOpen: spy
     });
-    fireEvent.click(getByTestId("button"));
+    fireEvent.click(getByText("open"));
     expect(spy.mock.calls.length).toBe(1);
   });
 
   it("calls afterOpen() after it opens", () => {
     const spy = jest.fn();
-    const { getByTestId } = renderWithProvider({
+    const { getByText } = renderWithProvider({
       afterOpen: spy
     });
-    fireEvent.click(getByTestId("button"));
+    fireEvent.click(getByText("open"));
     expect(spy.mock.calls.length).toBe(1);
   });
 
   it("calls beforeClose() before it closes", () => {
     const spy = jest.fn();
-    const { getByTestId } = renderWithProvider({
+    const { getByText } = renderWithProvider({
       isOpen: true,
       beforeClose: spy
     });
-    fireEvent.click(getByTestId("button"));
+    fireEvent.click(getByText("close"));
     expect(spy.mock.calls.length).toBe(1);
   });
 
   it("calls afterClose() after it closes", () => {
     const spy = jest.fn();
-    const { getByTestId } = renderWithProvider({
+    const { getByText } = renderWithProvider({
       isOpen: true,
       afterClose: spy
     });
-    fireEvent.click(getByTestId("button"));
-    // We expect two calls because afterClose() is also called
-    // on the initial mount
+    fireEvent.click(getByText("close"));
     expect(spy.mock.calls.length).toBe(1);
   });
 
@@ -138,14 +237,50 @@ describe("Modal.styled()", () => {
       background-color: green;
     `;
 
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <ModalProvider>
-        <StyledModal isOpen={true} data-testid="modal">
+        <StyledModal isOpen={true}>
           <button>close</button>
         </StyledModal>
       </ModalProvider>
     );
+    expect(getByRole("dialog")).toHaveStyle(`background-color: green`);
+  });
+});
 
-    expect(getByTestId("modal")).toHaveStyle(`background-color: green`);
+describe("Nested <Modal />", () => {
+  const NestedModals = () => {
+    const [isFirstOpen, setIsFirstOpen] = useState(true);
+    const [isSecondOpen, setIsSecondOpen] = useState(false);
+    const toggleFirst = () => {
+      setIsFirstOpen(!isFirstOpen);
+    };
+    const toggleSecond = () => {
+      setIsSecondOpen(!isSecondOpen);
+    };
+    return (
+      <ModalProvider>
+        <Modal isOpen={isFirstOpen} closeModal={toggleFirst}>
+          <div>
+            <button onClick={toggleSecond}>open second</button>
+            <button onClick={toggleFirst}>close first</button>
+          </div>
+        </Modal>
+        <Modal isOpen={isSecondOpen} closeModal={toggleSecond}>
+          <div>
+            <button onClick={toggleSecond}>close second</button>
+          </div>
+        </Modal>
+      </ModalProvider>
+    );
+  };
+  it("should close the last opened modal when Escape key is pressed", () => {
+    const { queryByText, getByText } = render(<NestedModals />);
+    fireEvent.click(getByText("open second"));
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(queryByText("close second")).toBeNull();
+    expect(getByText("close first")).toBeTruthy();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(queryByText("close first")).toBeNull();
   });
 });

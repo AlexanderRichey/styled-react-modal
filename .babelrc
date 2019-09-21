@@ -1,9 +1,12 @@
 {
   "presets": ["@babel/env", "@babel/react"],
   "plugins": [
-    ["babel-plugin-styled-components", {
-      "displayName": true,
-      "ssr": true
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "displayName": true,
+        "ssr": true
+      }
+    ]
   ]
 }
