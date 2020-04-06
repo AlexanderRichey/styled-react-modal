@@ -3,7 +3,7 @@
   "plugins": [
     ["babel-plugin-styled-components", {
       "displayName": true,
-      "ssr": true
+      "ssr": false
     }]
   ]
 }

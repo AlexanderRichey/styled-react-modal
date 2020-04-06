@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Consumer } from "./context";
 
 function Modal({
@@ -143,13 +143,11 @@ function Modal({
   );
 }
 
-Modal.styled = function(...args) {
-  const styles =
-    styled.div`
-      ${css(...args)}
-    ` || styled.div``;
-  return function(props) {
-    return <Modal WrapperComponent={styles} {...props} />;
+Modal.styled = function (...args) {
+  const wrap = args ? styled.div(...args) : styled.div();
+
+  return function (props) {
+    return <Modal WrapperComponent={wrap} {...props} />;
   };
 };
 
