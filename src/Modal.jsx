@@ -18,7 +18,7 @@ function Modal({
   ...rest
 }) {
   const node = useRef(null);
-  const prevBodyOverflowStyle = useRef(null);
+  const prevBodyStyle = useRef(null);
   const isMounted = useRef(false);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -91,16 +91,27 @@ function Modal({
 
   // Handle changing document.body styles based on isOpen state
   useEffect(() => {
-    if (isOpen && !allowScroll) {
-      prevBodyOverflowStyle.current = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-    }
+     if (isOpen && !allowScroll) {
+       prevBodyStyle.current = {
+         width: document.body.style.width,
+         position: document.body.style.position,
+         overflowY: document.body.style.overflowY
+       };
+       document.body.style.position = "fixed";
+       document.body.style.overflowY = "scroll";
+       document.body.style.width = "100%";
+     }
 
-    return () => {
-      if (!allowScroll) {
-        document.body.style.overflow = prevBodyOverflowStyle.current || "";
-      }
-    };
+     return () => {
+       if (!allowScroll) {
+         document.body.style.position =
+           (prevBodyStyle.current && prevBodyStyle.current.position) || "";
+         document.body.style.overflowY =
+           (prevBodyStyle.current && prevBodyStyle.current.overflowY) || "";
+         document.body.style.width =
+           (prevBodyStyle.current && prevBodyStyle.current.width) || "";
+       }
+     };
   }, [isOpen, allowScroll]);
 
   // Keep track of whether the modal is mounted to prevent misfiring callbacks
