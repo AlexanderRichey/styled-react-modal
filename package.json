@@ -69,7 +69,9 @@
     "minimist": "^0.2.1",
     "acorn": "^6.4.1",
     "kind-of": "^6.0.3",
-    "serialize-javascript": "^2.1.1"
+    "serialize-javascript": "^3.1.0",
+    "ssri": "^8.0.1",
+    "node-notifier": "^8.0.1"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
