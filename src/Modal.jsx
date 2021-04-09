@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -24,14 +24,6 @@ function Modal({
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onEscapeKeydownCallback = useCallback(onEscapeKeydown);
-  const onBackgroundClickCallback = useCallback(onBackgroundClick);
-
-  const beforeOpenCallback = useCallback(beforeOpen);
-  const afterOpenCallback = useCallback(afterOpen);
-  const beforeCloseCallback = useCallback(beforeClose);
-  const afterCloseCallback = useCallback(afterClose);
-
   // Handle changing isOpen state and *before* isOpen change callbacks
   useEffect(() => {
     function handleChange(callback) {
@@ -48,36 +40,29 @@ function Modal({
 
     if (isOpen !== isOpenProp) {
       if (isOpenProp) {
-        handleChange(beforeOpenCallback);
+        handleChange(beforeOpen);
       } else {
-        handleChange(beforeCloseCallback);
+        handleChange(beforeClose);
       }
     }
-  }, [
-    isMounted,
-    isOpen,
-    setIsOpen,
-    isOpenProp,
-    beforeOpenCallback,
-    beforeCloseCallback
-  ]);
+  }, [isMounted, isOpen, setIsOpen, isOpenProp, beforeOpen, beforeClose]);
 
   // Handle *after* isOpen change callbacks
   useEffect(() => {
     if (isOpen) {
-      afterOpenCallback && afterOpenCallback();
+      afterOpen && afterOpen();
     } else {
-      // The isMounted bit prevents the afterCloseCallback from getting called
+      // The isMounted bit prevents the afterClose from getting called
       // on the initial mount
-      isMounted.current && afterCloseCallback && afterCloseCallback();
+      isMounted.current && afterClose && afterClose();
     }
-  }, [isMounted, isOpen, afterOpenCallback, afterCloseCallback]);
+  }, [isMounted, isOpen, afterOpen, afterClose]);
 
   // Handle Escape keydown
   useEffect(() => {
     function handleKeydown(e) {
       if (e.key === "Escape") {
-        onEscapeKeydownCallback && onEscapeKeydownCallback(e);
+        onEscapeKeydown && onEscapeKeydown(e);
       }
     }
 
@@ -88,7 +73,7 @@ function Modal({
     return () => {
       document.removeEventListener("keydown", handleKeydown);
     };
-  }, [isOpen, onEscapeKeydownCallback]);
+  }, [isOpen, onEscapeKeydown]);
 
   // Handle changing document.body styles based on isOpen state
   useEffect(() => {
@@ -111,7 +96,7 @@ function Modal({
 
   function handleBackgroundClick(e) {
     if (node.current === e.target) {
-      onBackgroundClickCallback && onBackgroundClickCallback(e);
+      onBackgroundClick && onBackgroundClick(e);
     }
   }
 
