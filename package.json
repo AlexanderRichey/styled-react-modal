@@ -53,7 +53,6 @@
     "eslint-plugin-react": "^7.19.0",
     "jest": "^25.2.7",
     "prettier": "^2.0.3",
-    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^16.13.1",
@@ -76,5 +75,8 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": true
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2"
   }
 }
