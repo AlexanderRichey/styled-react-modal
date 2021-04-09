@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { Consumer } from "./context";
 
 function Modal({
@@ -153,6 +154,19 @@ Modal.styled = function (...args) {
 
 Modal.defaultProps = {
   backgroundProps: {}
+};
+
+Modal.propTypes = {
+  WrapperComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.object]),
+  onBackgroundClick: PropTypes.func,
+  onEscapeKeydown: PropTypes.func,
+  allowScroll: PropTypes.bool,
+  beforeOpen: PropTypes.func,
+  afterOpen: PropTypes.func,
+  beforeClose: PropTypes.func,
+  afterClose: PropTypes.func,
+  backgroundProps: PropTypes.object,
+  isOpen: PropTypes.bool
 };
 
 export default Modal;

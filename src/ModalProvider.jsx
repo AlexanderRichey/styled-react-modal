@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { BaseModalBackground } from "./baseStyles";
 import { Provider } from "./context";
 
-export default function ModalProvider({
+function ModalProvider({
   backgroundComponent: propsBackgroundComponent,
   children
 }) {
@@ -34,3 +35,12 @@ export default function ModalProvider({
     </Provider>
   );
 }
+
+ModalProvider.propTypes = {
+  backgroundComponent: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.object
+  ])
+};
+
+export default ModalProvider;
