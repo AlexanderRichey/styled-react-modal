@@ -114,7 +114,7 @@ function Modal({
           return ReactDOM.createPortal(
             <BackgroundComponent
               {...backgroundProps}
-              onClick={handleBackgroundClick}
+              onMouseDown={handleBackgroundClick}
               ref={node}
             >
               {content}
