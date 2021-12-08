@@ -6,7 +6,8 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     filename: "index.js",
     libraryTarget: "commonjs2",
-    library: "styled-react-modal"
+    library: "styled-react-modal",
+    libraryExport: "default"
   },
   mode: "production",
   module: {
