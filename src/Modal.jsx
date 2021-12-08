@@ -20,43 +20,52 @@ function Modal({
 }) {
   const node = useRef(null);
   const prevBodyOverflowStyle = useRef(null);
-  const isMounted = useRef(false);
+  const isTransitioning = useRef(false);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  // Handle changing isOpen state and *before* isOpen change callbacks
+  // Handle opening and closing
   useEffect(() => {
+    function handleIsOpenChange(value) {
+      setIsOpen(value);
+      value ? afterOpen() : afterClose();
+    }
+
     function handleChange(callback) {
       if (callback) {
-        try {
-          callback().then(() => setIsOpen(isOpenProp));
-        } catch (e) {
-          setIsOpen(isOpenProp);
+        const maybePromise = callback();
+        if (typeof maybePromise?.then === "function") {
+          isTransitioning.current = true;
+
+          maybePromise.then(() => {
+            handleIsOpenChange(isOpenProp);
+
+            isTransitioning.current = false;
+          });
+        } else {
+          handleIsOpenChange(isOpenProp);
         }
       } else {
-        setIsOpen(isOpenProp);
+        handleIsOpenChange(isOpenProp);
       }
     }
 
-    if (isOpen !== isOpenProp) {
+    if (isOpen !== isOpenProp && !isTransitioning.current) {
       if (isOpenProp) {
         handleChange(beforeOpen);
       } else {
         handleChange(beforeClose);
       }
     }
-  }, [isMounted, isOpen, setIsOpen, isOpenProp, beforeOpen, beforeClose]);
-
-  // Handle *after* isOpen change callbacks
-  useEffect(() => {
-    if (isOpen) {
-      afterOpen && afterOpen();
-    } else {
-      // The isMounted bit prevents the afterClose from getting called
-      // on the initial mount
-      isMounted.current && afterClose && afterClose();
-    }
-  }, [isMounted, isOpen, afterOpen, afterClose]);
+  }, [
+    isTransitioning,
+    isOpen,
+    isOpenProp,
+    beforeOpen,
+    beforeClose,
+    afterClose,
+    afterOpen
+  ]);
 
   // Handle Escape keydown
   useEffect(() => {
@@ -88,11 +97,6 @@ function Modal({
       }
     };
   }, [isOpen, allowScroll]);
-
-  // Keep track of whether the modal is mounted to prevent misfiring callbacks
-  useEffect(() => {
-    isMounted.current = true;
-  }, [isMounted]);
 
   function handleBackgroundClick(e) {
     if (node.current === e.target) {
