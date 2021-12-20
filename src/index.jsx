@@ -1,6 +1,8 @@
-import { BaseModalBackground } from './baseStyles'
-import ModalProvider from './ModalProvider'
-import Modal from './Modal'
+import { BaseModalBackground } from "./baseStyles";
+import ModalProvider from "./ModalProvider";
+import Modal from "./Modal";
 
-export { ModalProvider, BaseModalBackground }
-export default Modal
+Modal.ModalProvider = ModalProvider;
+Modal.BaseModalBackground = BaseModalBackground;
+
+export default Modal;
