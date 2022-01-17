@@ -10,17 +10,16 @@ export default {
       name: "styled-react-modal",
       file: "build/index.js",
       format: "umd",
-      exports: "default",
+      exports: "named",
       globals: {
         react: "React",
         "react-dom": "ReactDOM",
-        "prop-types": "PropTypes",
         "styled-components": "styled"
       }
     },
     {
       name: "styled-react-modal",
-      exports: "default",
+      exports: "named",
       file: "build/index.mjs",
       format: "es"
     }
@@ -40,5 +39,5 @@ export default {
     }),
     terser()
   ],
-  external: ["react", "react-dom", "prop-types", "styled-components"]
+  external: ["react", "react-dom", "styled-components"]
 };
