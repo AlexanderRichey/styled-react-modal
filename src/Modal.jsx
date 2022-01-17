@@ -4,6 +4,10 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Consumer } from "./context";
 
+function callIfDefined(fun, ...args) {
+  fun && fun(...args);
+}
+
 function Modal({
   WrapperComponent,
   children,
@@ -28,7 +32,7 @@ function Modal({
   useEffect(() => {
     function handleIsOpenChange(value) {
       setIsOpen(value);
-      value ? afterOpen() : afterClose();
+      value ? callIfDefined(afterOpen) : callIfDefined(afterClose);
     }
 
     function handleChange(callback) {
