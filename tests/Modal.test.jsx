@@ -1,8 +1,9 @@
 import "@testing-library/jest-dom/extend-expect";
 
 import React, { useState } from "react";
+import { act } from "react-dom/test-utils";
 import styled from "styled-components";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import Modal, { ModalProvider } from "../src";
 
 function StatefulModal(props) {
@@ -79,6 +80,23 @@ describe("<Modal />", () => {
     expect(sleeper).not.toHaveBeenCalled();
   });
 
+  it("calls beforeOpen() before it opens and waits to call afterOpen() if it returns a promise", async () => {
+    const spy = jest.fn(
+      () => new Promise((resolve) => setTimeout(act(resolve), 100))
+    );
+    const afterOpenSpy = jest.fn();
+    const sleeper = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      beforeOpen: spy,
+      afterOpen: afterOpenSpy,
+      beforeClose: sleeper
+    });
+    fireEvent.click(getByTestId("button"));
+    expect(spy.mock.calls.length).toBe(1);
+    await waitFor(() => expect(afterOpenSpy.mock.calls.length).toBe(1));
+    expect(sleeper).not.toHaveBeenCalled();
+  });
+
   it("calls afterOpen() after it opens", () => {
     const spy = jest.fn();
     const sleeper = jest.fn();
@@ -104,6 +122,24 @@ describe("<Modal />", () => {
     expect(sleeper.mock.calls.length).toBe(1);
   });
 
+  it("calls beforeClose() before it closes and waits to call afterClose() if it returns a promise", async () => {
+    const spy = jest.fn(
+      () => new Promise((resolve) => setTimeout(act(resolve), 100))
+    );
+    const afterCloseSpy = jest.fn();
+    const sleeper = jest.fn();
+    const { getByTestId } = renderWithProvider({
+      isOpen: true,
+      beforeClose: spy,
+      afterClose: afterCloseSpy,
+      beforeOpen: sleeper
+    });
+    fireEvent.click(getByTestId("button"));
+    expect(spy.mock.calls.length).toBe(1);
+    await waitFor(() => expect(afterCloseSpy.mock.calls.length).toBe(1));
+    expect(sleeper.mock.calls.length).toBe(1);
+  });
+
   it("calls afterClose() after it closes", () => {
     const spy = jest.fn();
     const sleeper = jest.fn();
@@ -119,7 +155,7 @@ describe("<Modal />", () => {
 
   it("passes background props to background", () => {
     const Background = styled.div`
-      background: ${props => props.color || "green"};
+      background: ${(props) => props.color || "green"};
     `;
 
     const { getByTestId } = renderWithProvider(
