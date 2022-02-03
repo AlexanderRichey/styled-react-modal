@@ -2,11 +2,12 @@
   "name": "styled-react-modal",
   "version": "3.0.0-alpha",
   "description": "A React modal built with styled-components.",
-  "main": "build/index.js",
-  "module": "build/index.mjs",
+  "main": "build/umd/index.js",
+  "module": "build/mjs/index.mjs",
   "scripts": {
     "test": "jest --coverage --verbose",
     "lint": "prettier src/ tests/",
+    "prepublish": "yarn run build",
     "build": "rollup -c rollup.config.js"
   },
   "repository": {

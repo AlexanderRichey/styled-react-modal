@@ -5,16 +5,16 @@
 
 > For support for **react <16.9**, please use **styled-react-modal@1.2.4**.
 
-> For support for **styled-components v3**, please use **styled-react-modal@1.0.0**.
+> For support for **create-react-app <5.0.0, please import from `styled-react-modal/build/umd`.
 
-Styled React Modal is built with styled-components. It uses the latest React 16.x features and exposes a familiar, easy to use API. It supports `beforeOpen()`, `afterOpen()`, and other lifecycle hooks so that animations can be handled easily. Unlike several other modal implementations in React, it does not pollute the DOM with excessive nodes.
+Styled React Modal is built with styled-components. It uses the latest React 17.x features and exposes a familiar, easy to use API. It supports `beforeOpen()`, `afterOpen()`, and other lifecycle hooks so that animations can be handled easily. Unlike several other modal implementations in React, it does not pollute the DOM with excessive nodes.
 
 [**Demo on CodeSandbox**](https://codesandbox.io/s/m9jlky57y)
 
 ## Install
 
 ```
-npm i -s styled-react-modal
+npm i -s styled-react-modal  # or use yarn
 ```
 
 ## Usage

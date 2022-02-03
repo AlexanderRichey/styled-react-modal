@@ -9,7 +9,7 @@ export default {
   output: [
     {
       name: "styled-react-modal",
-      file: "build/index.js",
+      file: "build/umd/index.js",
       format: "umd",
       exports: "named",
       globals: {
@@ -21,7 +21,7 @@ export default {
     {
       name: "styled-react-modal",
       exports: "named",
-      file: "build/index.mjs",
+      file: "build/mjs/index.mjs",
       format: "es"
     }
   ],
