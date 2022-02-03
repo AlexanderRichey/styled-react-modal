@@ -39,6 +39,8 @@ export default function App() {
 
 Use the `<Modal>` component.
 
+> For instructions on how the make your modal accessible according to the [WAI-ARIA spec](https://www.w3.org/TR/wai-aria-practices/#dialog_modal), see [this CodeSandbox](https://codesandbox.io/s/styled-react-modal-a11y-9uco3?file=/src/index.js).
+
 ```js
 import Modal from 'styled-react-modal'
 ...
