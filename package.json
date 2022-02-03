@@ -1,6 +1,6 @@
 {
   "name": "styled-react-modal",
-  "version": "3.0.0-beta",
+  "version": "3.0.0",
   "description": "A React modal built with styled-components.",
   "main": "build/umd/index.js",
   "module": "build/mjs/index.mjs",
