@@ -26,7 +26,7 @@
     "styled-components"
   ],
   "author": "Alexander Richey <alexander.richey@gmail.com>",
-  "license": "UNLICENSED",
+  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/AlexanderRichey/styled-react-modal/issues"
   },
