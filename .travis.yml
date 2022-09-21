@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 16
+  - 18.7.0
 before_install:
   - npm i -g codecov
 script:
