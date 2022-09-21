@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - stable
+  - 18.10
 before_install:
   - npm i -g codecov
 script:
