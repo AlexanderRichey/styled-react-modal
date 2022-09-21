@@ -36,7 +36,9 @@ export default {
       "process.env.NODE_ENV": JSON.stringify("production"),
       preventAssignment: true
     }),
-    commonjs(),
+    commonjs({
+      include: /node_modules/
+    }),
     babel({
       babelHelpers: "runtime",
       extensions: [".jsx", ".js"],
