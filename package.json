@@ -7,7 +7,6 @@
   "scripts": {
     "test": "jest --coverage --verbose",
     "lint": "prettier src/ tests/",
-    "prepublish": "yarn run build",
     "build": "rollup -c rollup.config.js"
   },
   "repository": {

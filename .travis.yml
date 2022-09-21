@@ -1,9 +1,10 @@
-dist: bionic
+dist: focal
 language: node_js
 node_js:
-  - 16.17
+  - stable
 before_install:
   - npm i -g codecov
 script:
   - yarn test
+  - yarn build
   - codecov
