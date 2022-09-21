@@ -42,7 +42,18 @@ export default {
     babel({
       babelHelpers: "runtime",
       extensions: [".jsx", ".js"],
-      exclude: /(node_modules|build)/
+      exclude: /(node_modules|build)/,
+      presets: ["@babel/env", "@babel/react"],
+      plugins: [
+        ["@babel/plugin-transform-runtime"],
+        [
+          "babel-plugin-styled-components",
+          {
+            displayName: true,
+            ssr: false
+          }
+        ]
+      ]
     }),
     terser()
   ],
