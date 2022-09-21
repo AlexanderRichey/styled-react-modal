@@ -1,23 +1,11 @@
 language: node_js
 node_js:
-- node
+  - node
 before_install:
-- npm i -g codecov
+  - npm i -g codecov
 script:
-- yarn test
-- codecov
-deploy:
-  provider: npm
-  email: alexander.richey@gmail.com
-  api_key:
-    secure: DtPpuiSj6SK9IP8nQSwgrRMbbRj/vs2GTQ+QuM2UjNMe/NCdFg/c7wBlODewktniLdzd0W9SIIWDf/RGZOqvgqd0LdNYllgI7Z51hVwP+wE2OtHH8c5bvmWZ4aoSwO3vaEHKEmCJagdItmL8BBYbFM2H0GKszE2BaGNBQ59wRaDTeNmdKAxxIUOnnt8n5Pcfs4D4xczPQaBx+E3P7I4czUwqpJpJa65nMk5RWMiqlYgojs2EpJM34yQR7kvP+2inJkEtvehdFok9c4JezDeHa8JgbM85epyXCFkPX3J2S/2v72A2oqyrtRM8HXvNQB381+fuRXY9hl3gKhjzAcB4L7KCNFOcmIqDN1gEHumMPkli4zpTN9ICyVBup5bmR+NquggwTQoebbuprey/RNQmi7+HvkZ9wZplYarM9XORR3GzFt3vRsgx5zljc2kNhlAMemVD5JGZZLUnZV82XZ1Pahydq/V4gGhYkfsZqk1T3ufr/tIYKWTPgtf2pV/2FL+TjmH/bAKJfJKTwEw/f5gI9KiiMiVqg87uyZUMKTCXke8QXDnv/Tv2G8re7allOVpIHaKbWxtgFATAe9tF2qqWLe6K6Rpg2ZHFJDvIH/zL4/tMIaI0xXs0wKu/l8bncLOE6Qld3O1hn1y6XSwt0UqWtqaFAfzfYSHXDa0R1Dgkcuk=
-  on:
-    tags: true
-    repo: AlexanderRichey/styled-react-modal
-    branch: master
+  - yarn test
+  - codecov
 cache:
   directories:
-  - "$HOME/.npm"
-env:
-  global:
-    secure: JlD2hqdMfkoZRiy/XRbUy/qjbDyAwAZOpvJJJRJsnXZZhTMIJ5LcCBaBk7lXEnhc5pp8gT/OGY0gJvbAC5e4DJfMl5wUiVKMgGZD0wJINOxzQAszcmTDDZIKZANB3xi54MoQOF8uQdtGKyP6q0gAUQ4GpXlHkPXt/ESMmF5W65Cw1RcoZlM1GucE2G7n+4TBmkJfox7TaBbthAQPKftnPetYwXyrWcdTOLVlM8JS6nwQDiXOHq6bwZsDiYHBrh2Ri0va2Y/g5F1Vea7wQu4RSImWSXjvBjkOEKltQDUAVbu+KgnCo4hngxhlHykG0MGn8ziC/F36v+PQcsNVXloKU3RKUSxFO1mNxXQTe/bFECkA17Q/LJNnuQqmS8cOOvpgOpD88E9OmmcbBqb9K/6JFG8B/oUBzR9rea3pJWiITTBfD2QzCxcH3kz8uB8uzuNly0y3lsoRbFAL/QZ5GY73pkh5sZWfp8AEoSyZ33nB7PZGqc/qy02V2V3hKiAZKaAS4aLuI5137J7uyIdx1yDniMYT6i7slYrZHLKU+1T1hP5fE4LAOQ4o+hj7pkngNxOcwj/WgCmnEj4DJZVSlWRlGMcTIyeXaulaK6XCHc4f64/w/3a5W9n4p3XtiLVXnSpm7OTfhlY9mtsYuph66pckvu7Q/MPUzU0YPXsI0KP9THc=
+    - "$HOME/.npm"
