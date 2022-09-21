@@ -1,7 +1,7 @@
 dist: bionic
 language: node_js
 node_js:
-  - stable
+  - 16.17
 before_install:
   - npm i -g codecov
 script:
