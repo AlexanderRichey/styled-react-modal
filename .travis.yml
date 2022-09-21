@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - lts/16
+  - 16
 before_install:
   - npm i -g codecov
 script:
