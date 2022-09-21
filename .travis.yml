@@ -1,7 +1,7 @@
 dist: focal
 language: node_js
 node_js:
-  - 18.7.0
+  - stable
 before_install:
   - npm i -g codecov
 script:
