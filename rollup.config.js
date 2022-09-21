@@ -28,9 +28,7 @@ export default {
   plugins: [
     resolve({
       extensions: [".jsx", ".js"],
-      customResolveOptions: {
-        moduleDirectories: ["node_modules"]
-      }
+      moduleDirectories: ["node_modules"]
     }),
     replace({
       "process.env.NODE_ENV": JSON.stringify("production"),

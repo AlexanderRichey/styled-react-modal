@@ -6,5 +6,4 @@ before_install:
   - npm i -g codecov
 script:
   - yarn test
-  - yarn build
   - codecov
