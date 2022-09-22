@@ -1,9 +1,0 @@
-dist: focal
-language: node_js
-node_js:
-  - stable
-before_install:
-  - npm i -g codecov
-script:
-  - yarn test
-  - codecov
