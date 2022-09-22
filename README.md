@@ -1,7 +1,7 @@
 # Styled React Modal
 
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
- [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![Build Status](https://travis-ci.com/AlexanderRichey/styled-react-modal.svg?branch=master)](https://travis-ci.com/AlexanderRichey/styled-react-modal) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal)
+ [![npm version](https://img.shields.io/npm/v/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![npm downloads](https://img.shields.io/npm/dm/styled-react-modal.svg)](https://www.npmjs.com/package/styled-react-modal) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/AlexanderRichey/styled-react-modal/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AlexanderRichey/styled-react-modal/tree/main) [![codecov](https://codecov.io/gh/AlexanderRichey/styled-react-modal/branch/main/graph/badge.svg)](https://codecov.io/gh/AlexanderRichey/styled-react-modal)
 
 > For support for **react <16.9**, please use **styled-react-modal@1.2.4**.
 
