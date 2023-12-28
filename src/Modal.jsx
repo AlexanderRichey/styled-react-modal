@@ -18,7 +18,7 @@ function Modal({
   afterOpen,
   beforeClose,
   afterClose,
-  backgroundProps,
+  backgroundProps = {},
   isOpen: isOpenProp,
   ...rest
 }) {
@@ -143,10 +143,6 @@ Modal.styled = function (...args) {
   return function (props) {
     return <Modal WrapperComponent={wrap} {...props} />;
   };
-};
-
-Modal.defaultProps = {
-  backgroundProps: {}
 };
 
 Modal.propTypes = {
