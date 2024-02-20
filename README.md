@@ -61,22 +61,19 @@ function FancyModalButton() {
     setIsOpen(!isOpen)
   }
 
-  render () {
-    return (
-      <div>
-        <button onClick={toggleModal}>Click me</button>
-        <StyledModal
-          isOpen={isOpen}
-          onBackgroundClick={toggleModal}
-          onEscapeKeydown={toggleModal}>
-          <span>I am a modal!</span>
-          <button onClick={toggleModal}>Close me</button>
-        </StyledModal>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <button onClick={toggleModal}>Click me</button>
+      <StyledModal
+        isOpen={isOpen}
+        onBackgroundClick={toggleModal}
+        onEscapeKeydown={toggleModal}>
+        <span>I am a modal!</span>
+        <button onClick={toggleModal}>Close me</button>
+      </StyledModal>
+    </div>
+  )
 }
-
 ```
 
 ## API
@@ -176,22 +173,19 @@ function FancyModalButton() {
     setIsOpen(!isOpen)
   }
 
-  render () {
-    return (
-      <div>
-        <button onClick={toggleModal}>Click me</button>
-        <Modal
-          isOpen={isOpen}
-          onBackgroundClick={toggleModal}
-          onEscapeKeydown={toggleModal}>
-          <span>I am a modal!</span>
-          <button onClick={toggleModal}>Close me</button>
-        </Modal>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <button onClick={toggleModal}>Click me</button>
+      <Modal
+        isOpen={isOpen}
+        onBackgroundClick={toggleModal}
+        onEscapeKeydown={toggleModal}>
+        <span>I am a modal!</span>
+        <button onClick={toggleModal}>Close me</button>
+      </Modal>
+    </div>
+  )
 }
-
 ```
 
 ### `<BaseModalBackground>`
