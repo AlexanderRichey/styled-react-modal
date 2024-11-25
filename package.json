@@ -32,9 +32,9 @@
   },
   "homepage": "https://github.com/AlexanderRichey/styled-react-modal#readme",
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "styled-components": "^6.1.1"
+    "react": ">=18",
+    "react-dom": ">=18",
+    "styled-components": ">=6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -87,5 +87,6 @@
   },
   "dependencies": {
     "prop-types": "^15.8.1"
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
