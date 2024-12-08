@@ -1,6 +1,6 @@
 {
   "name": "styled-react-modal",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A React modal built with styled-components.",
   "main": "build/umd/index.js",
   "module": "build/mjs/index.mjs",
@@ -34,7 +34,7 @@
   "peerDependencies": {
     "react": ">=18 <19",
     "react-dom": ">=18 <19",
-    "styled-components": ">=6 <7"
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
